@@ -1,0 +1,249 @@
+# This is a comment.
+# Please indent this yaml-file with 4 spaces, just like in python.
+# This config-file configures the logging used in python-applications.
+#
+# For more information, please see:
+#   - https://www.python.org/dev/peps/pep-0391/
+#   - https://pyyaml.org/wiki/PyYAMLDocumentation
+#   - https://docs.python.org/2.7/library/logging.config.html
+#   - http://docs.python-guide.org/en/latest/writing/logging
+#   - https://docs.python.org/3/howto/logging-cookbook.html
+#   - https://fangpenlin.com/posts/2012/08/26/good-logging-practice-in-python
+#   - https://logmatic.io/blog/python-logging-with-json-steroids
+#   - https://docs.djangoproject.com/en/1.8/topics/logging/#examples
+#
+# Available default levels:
+#   -  0 NOTSET
+#   - 10 DEBUG
+#   - 20 INFO
+#   - 30 WARNING  (WARN is deprecated)
+#   - 40 ERROR
+#   - 50 CRITICAL (=FATAL)
+#
+# You can create an extra loglevel in your code via:
+#     > libranet_logging.loglevel.create_loglevel("TRACE", 5)
+#
+# Note about environment-variables:
+# You can use "!env" as a constructor to load values from an environment-variable.
+# This constructor takes 2 input-arguments:
+#   - The name of the env-variable
+#   - The default-value in case the env-var is not set.
+#     Defaults to empty string if not provided.
+#     Any quotes in default-values will be stripped.
+#     To provide an array, use ; as separator, just like setting $PATH.
+#
+# For example:
+# loggers:
+#     <name-logger>:
+#         level: !env <NAME-ENV-VARIABLE>, <DEFAULT-IF-ENV-VAR-IS-MISSING>
+
+
+logdir: !env PYTHON_LOG_DIR
+
+version: 1
+
+disable_existing_loggers: True
+
+filters:
+
+    regex-filter:
+        "()": "libranet_logging.filters.RegexFilter"
+        params:
+            # Note: You need to escape backslash ("\") with a backslash ("\\")
+
+            # selectively silence verbosity of flask-appbuilder
+            - "Column \\w+ Type not supported"               # error
+            - "Filter type not supported for column: \\w+"   # warning
+            - "Registering class \\w+ on menu"               # debug
+
+            # silence sh
+            - "^<Command.*process started$"    # debug
+            - "^<Command.*process completed$"  # debug
+
+            # silence werkzeug-requests on css/js-resources
+            - ".*.css HTTP/1.1.*"  # info
+            - ".*.js HTTP/1.1.*"   # info
+
+formatters:
+
+    generic:
+        format: "%(asctime)s - %(name)s - %(levelname)-7s - %(message)s"
+        datefmt: "%Y/%m/%d %H:%M:%S"
+
+    simple:
+        format: "%(asctime)s - %(levelname)-7s - %(message)s"
+        datefmt: "%Y/%m/%d %H:%M:%S"
+
+    verbose:
+        format: "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s"
+        datefmt: "%Y/%m/%d %H:%M:%S"
+
+    email:
+        format: "%(levelname)-7s on %(name)-s: \n\n%(message)s"
+        datefmt: "%Y/%m/%d %H:%M:%S"
+
+    console_bw:  # simple back & white
+        format: "%(asctime)s - %(name)s - %(levelname)-7s - %(message)s"
+        datefmt: "%Y/%m/%d %H:%M:%S"
+
+    console_color: # suited for black background
+        "()": "colorlog.ColoredFormatter"
+        format: "%(log_color)s%(asctime)s - %(name)s - %(levelname)-7s - %(message)s%(reset)s"
+        datefmt: "%Y/%m/%d %H:%M:%S"
+        reset: True
+        log_colors:
+             # cfr. https://github.com/borntyping/python-colorlog
+             # supported colors: blue|cyan|green|yellow|red|purple|white|black
+             # supported prefixes:  bold_ | bg_
+             # <LOGLEVEL>: <foreground-color>,<background-color>
+             DEBUG: bold_cyan
+             INFO: bold_green
+             WARNING: bold_yellow
+             ERROR: bold_red
+             CRITICAL: bold_purple
+
+    airflow.task:
+        format: "[%%(asctime)s] {{%%(filename)s:%%(lineno)d}} %%(levelname)s - %%(message)s"
+
+handlers:
+
+     # Generally there is no need to change to loglevel specified on the handlers.
+     # Easier is to adjust the loglevel only on the loggers by setting the corresponding env-variable.
+
+    "null":  # quoting prevents incorrect conversion to None
+        class: logging.NullHandler
+        level: DEBUG
+
+    console:
+        class: logging.StreamHandler
+        formatter: !env PYTHON_CONSOLE_FORMATTER, console_bw
+        level: DEBUG
+        stream: "ext://sys.stdout"
+        filters:
+            - regex-filter
+
+    #email:
+    #    class: logging.handlers.SMTPHandler
+    #    formatter: email
+    #    level: WARNING
+    #    mailhost: !!python/tuple ["localhost", 25]
+    #    timeout: 3.0
+    #    subject: !env SMTP_SUBJECT, "my subject"
+    #    fromaddr:  !env SMTP_FROM, "aaa@ondernemersnetwerk.be"
+    #    toaddrs: !env SMTP_TO, "xxx@ondernemersnetwerk.be;yyy@ondernemersnetwerk.be"
+    #    #toaddrs:
+    #    #    - "xxx@ondernemersnetwerk.be"
+    #    #    - "yyy@ondernemersnetwerk.be"
+    #    # toaddrs: "xxx@ondernemersnetwerk.be"
+    #    filters:
+    #        - regex-filter
+
+    #logstash_udp:  &logstash
+    #    class: logstash.LogstashHandler
+    #    level: DEBUG
+    #    host: localhost
+    #    port: 5959              # Default value: 5959
+    #    version: 1              # Version of logstash event schema. Default value: 0 (for backwards-compat)
+    #    message_type: logstash  # "type"-field in logstash message. Default value: "logstash"
+    #    fqdn: False             # Fully qualified domain name. Default value: False.
+    #    tags:                   # list of tags. Default: None.
+    #        - tag1
+    #        - tag2
+    #    filters:
+    #        - regex-filter
+
+    #logstash_tcp:
+    #    <<: *logstash
+    #    class: logstash.TCPLogstashHandler
+    #    port: 5000
+
+    #syslog_local6:
+    #    # cfr. http://stackoverflow.com/questions/3968669/how-to-configure-logging-to-syslog-in-python
+    #    class: logging.handlers.SysLogHandler
+    #    address: /dev/log  # does not exist in docker
+    #    facility: local6
+    #    formatter: generic
+    #    level: INFO
+    #    filters:
+    #        - regex-filter
+
+    #syslog_remote:
+    #    class: logging.handlers.SysLogHandler
+    #    address: !!python/tuple ["localhost", 514]
+    #    facility: user
+    #    formatter: generic
+    #    level: INFO
+    #    filters:
+    #        - regex-filter
+
+    debug_file: &default
+        class: logging.handlers.RotatingFileHandler
+        level: DEBUG
+        formatter: generic
+        filename: debug.log
+        maxBytes: 104857600  # 100 MB = 100*1024*1024
+        backupCount: 10
+        encoding: utf8
+        filters:
+            - regex-filter
+
+    info_file:
+        <<: *default
+        filename: info.log
+        level: INFO
+
+    warning_file:
+        <<: *default
+        filename: warning.log
+        level: WARNING
+
+    error_file:
+        <<: *default
+        filename: errors.log
+        level: ERROR
+
+loggers:
+
+    # Notes:
+    # -) A disabled logger does nothing. If your application, or a library it uses underneath,
+    #    instantiates a logger, that logger is disabled unless you add it here.
+    # -) Propagation goes bottom-up, not top-to-bottom.
+    #    propagate defaults to True.
+    #    Therefore propagate is not applicable for the root-logger.
+
+    libranet_logging:
+        level: !env LOGLEVEL_libranet_logging, DEBUG
+
+    requests:
+        level: !env LOGLEVEL_REQUESTS, DEBUG
+
+    sh:
+        level: !env LOGLEVEL_SH, DEBUG
+
+    sqlalchemy:
+        level: !env LOGLEVEL_SQLALCHEMY, DEBUG
+
+    urllib3:
+        level: !env LOGLEVEL_URLLIB3, DEBUG
+
+
+root:
+
+    # You can get the root-logger via logging.getLogger(),
+    # Normally you don't need to use the root-logger directly, since all other loggers descend from it.
+
+    # The console-handler is automatically removed if not-interactive.
+    # The dedicated "<loglevel>_file"-handlers are automatically removed if the root-loglevel is set higher.
+
+    level: !env LOGLEVEL_ROOT, DEBUG
+    handlers:
+        - console
+        - debug_file
+        - info_file
+        - warning_file
+        - error_file
+        # - email
+        # - logstash_udp
+        # - logstash_tcp
+        # - syslog_local6
+        # - syslog_remote

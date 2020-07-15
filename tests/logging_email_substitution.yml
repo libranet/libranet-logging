@@ -1,0 +1,31 @@
+# This is a comment.
+
+logdir: !env PYTHON_LOG_DIR
+
+version: 1
+
+disable_existing_loggers: True
+
+handlers:
+
+    email:
+        class: logging.handlers.SMTPHandler
+        level: WARNING
+        mailhost: !!python/tuple ["localhost", 25]
+        timeout: 3.0
+        subject: !env SMTP_SUBJECT  # we don't set a default value here for testing
+        fromaddr:  !env SMTP_FROM, "application@ondernemersnetwerk.be"
+        toaddrs: !env SMTP_TO, "xxx@ondernemersnetwerk.be;yyy@ondernemersnetwerk.be"
+        #toaddrs:
+        #    - "xxx@ondernemersnetwerk.be"
+        #    - "yyy@ondernemersnetwerk.be"
+        # toaddrs: "xxx@ondernemersnetwerk.be"
+
+loggers:
+    libranet_logging:
+        level: !env LOGLEVEL_libranet_logging, DEBUG
+
+root:
+    level: !env LOGLEVEL_ROOT, DEBUG
+    handlers:
+        - email

@@ -1,0 +1,7 @@
+# This is a comment.
+
+logdir: !env PYTHON_LOG_DIR
+
+# version: 1  # violates the logging-schema
+
+disable_existing_loggers: True
