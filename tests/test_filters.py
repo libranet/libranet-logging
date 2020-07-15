@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=import-outside-toplevel
+# pylint: disable=missing-function-docstring
+# pylint: disable=missing-class-docstring
 """Testing of module libranet_logging.loglevel."""
-from libranet_logging.filters import RegexFilter, SimpleStringFilter
 
 
 class LogRecord:
@@ -12,6 +14,8 @@ class LogRecord:
 
 
 def test_simple_stringfilter_without_params():
+    from libranet_logging.filters import SimpleStringFilter
+
     params = []
     simple_string_filter = SimpleStringFilter(params=params)
     assert simple_string_filter.filter(LogRecord("xx AA yy")) is True
@@ -20,6 +24,8 @@ def test_simple_stringfilter_without_params():
 
 
 def test_simple_stringfilter():
+    from libranet_logging.filters import SimpleStringFilter
+
     params = ["AA", "BB"]
     simple_string_filter = SimpleStringFilter(params=params)
     # matching
@@ -31,6 +37,8 @@ def test_simple_stringfilter():
 
 
 def test_regexfilter_without_params():
+    from libranet_logging.filters import RegexFilter
+
     params = []
     regex_filter = RegexFilter(params=params)
     # non-matching
@@ -40,6 +48,8 @@ def test_regexfilter_without_params():
 
 
 def test_regexfilter():
+    from libranet_logging.filters import RegexFilter
+
     params = ["^AA", "BB$"]
     regex_filter = RegexFilter(params=params)
     # matching

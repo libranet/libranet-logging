@@ -48,7 +48,7 @@ def read_yaml(path, variables=None):
         variables = {}
 
     if not os.path.exists(path):
-        msg = "\nThe configfile {} does not exist.\n".format(path)
+        msg = f"\nThe configfile {path} does not exist.\n"
         raise SystemExit(msg)
 
     try:  # Pyyaml >= 5.1
@@ -58,17 +58,17 @@ def read_yaml(path, variables=None):
         loader = None
         yaml.add_constructor(u"!env", constructor_env)
 
-    with open(path, "r") as fh:
+    with open(path, "r") as stream:
         try:
-            data = fh.read()
+            data = stream.read()
             if variables:
                 data = data.format(**variables)  # TODO, will break on %s() in yml
             if loader:
                 data_yml = yaml.load(data, Loader=loader)
             else:  # pragma: no cover, PyYaml < 5.0
                 data_yml = yaml.load(data)
-        except Exception as e:
-            msg = "Failed to load yml-file {}: {}".format(path, e)
+        except Exception as exc:
+            msg = f"Failed to load yml-file {path}: {exc}"
             raise SystemExit(msg)
 
     return data_yml

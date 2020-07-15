@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=import-outside-toplevel
+# pylint: disable=missing-function-docstring
 """Testing of module libranet_logging.yaml."""
-from libranet_logging.yaml import read_yaml
 
 
 def test_read_yaml(env, monkeypatch, tests_dir):
+    from libranet_logging.yaml import read_yaml
+
     monkeypatch.setenv("SMTP_SUBJECT", "my TEST subject")
     monkeypatch.setenv("SMTP_FROM", "testing@ondernemersnetwerk.be")
     monkeypatch.setenv("SMTP_TO", "xxx@ondernemersnetwerk.be;yyy@ondernemersnetwerk.be")
@@ -18,6 +21,8 @@ def test_read_yaml(env, monkeypatch, tests_dir):
 
 
 def test_read_yaml_unset_envvar(env, monkeypatch, tests_dir):
+    from libranet_logging.yaml import read_yaml
+
     monkeypatch.delenv("SMTP_SUBJECT", raising=False)
     monkeypatch.delenv("SMTP_FROM", raising=False)
     monkeypatch.delenv("SMTP_TO", raising=False)

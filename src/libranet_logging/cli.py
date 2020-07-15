@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=import-outside-toplevel
 """libranet_logging.cli"""
 import logging
 import os
@@ -22,7 +23,7 @@ def print_logging_tree(path) -> None:
             bold=True,
         )
         click.secho(
-            "Using the packaged default from {}".format(get_default_logging_yml()),
+            f"Using the packaged default from {get_default_logging_yml()}",
             fg="yellow",
             bold=True,
         )
@@ -50,6 +51,6 @@ def print_loggers() -> None:
 
     _, _, children = tree()
     for node in children:
-        name, logger, subchildren = node
-        loglevelname = logging._levelToName[logger.level].upper()
-        print("f{name} - disabled: {logger.disabled} - level: {loglevelname}")
+        name, logger, _ = node
+        loglevelname = logging._levelToName[logger.level].upper()  # pylint: disable=protected-access
+        print(f"{name} - disabled: {logger.disabled} - level: {loglevelname}")

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=missing-function-docstring
 """conftest.py - custom pytest-plugins.
 
 For more information about conftest.py, please see:
@@ -16,14 +17,14 @@ import pytest
 
 @pytest.fixture(scope="session")
 def tests_dir():
-    tests_dir = os.path.dirname(os.path.realpath(__file__))
-    return pathlib.Path(tests_dir)
+    tests_dir_ = os.path.dirname(os.path.realpath(__file__))
+    return pathlib.Path(tests_dir_)
 
 
 @pytest.fixture(scope="session")
 def pkg_dir():
-    pkg_dir = pkg_resources.resource_filename("libranet_logging", "")
-    return pathlib.Path(pkg_dir)
+    pkg_dir_ = pkg_resources.resource_filename("libranet_logging", "")
+    return pathlib.Path(pkg_dir_)
 
 
 @pytest.fixture(scope="function")

@@ -87,7 +87,10 @@ def is_interactive_shell():
     Returns: boolean
 
     """
-    return True if os.environ.get("TERM", None) else False
+    if os.environ.get("TERM", None):
+        return True
+    return False
+
 
 
 def get_sorted_lognames():
@@ -96,7 +99,7 @@ def get_sorted_lognames():
     Returns:
 
     """
-    loglevels = logging._levelToName.items()  # noqa
+    loglevels = logging._levelToName.items()  # pylint: disable=protected-access
     sorted_loglevels = sorted(loglevels, key=operator.itemgetter(0))
     sorted_names = [lvl[1] for lvl in sorted_loglevels]
     return sorted_names
@@ -130,9 +133,7 @@ def ensure_dir(directory):
     if os.path.exists(directory):
         if not os.path.isdir(directory):
             raise OSError(
-                "The provided path to the log-directory exist but is not a directory".format(
-                    directory
-                )
+                f"The provided path to the log-directory exist but is not a directory: {directory}"
             )
     else:
         os.makedirs(directory)
@@ -207,7 +208,7 @@ def validate_logging(log_config, path):
     success = validator.validate(log_config)
     if not success and validator.errors:
         sorted_errors = sorted(validator.errors.items())
-        msg = "logconfig {} contains errors: {}".format(path, sorted_errors)
+        msg = f"logconfig {path} contains errors: {sorted_errors}"
         raise CerberusValidationError(msg)
 
 
@@ -244,7 +245,6 @@ def get_default_logging_yml():
 def initialize(
     path="",
     logdir="",
-    default_level=logging.DEBUG,
     capture_warnings=True,
     silent=False,
     use_print=False,
@@ -256,7 +256,6 @@ def initialize(
     Args:
         path:
         logdir:
-        default_level:
         capture_warnings:
         silent:
         use_print:

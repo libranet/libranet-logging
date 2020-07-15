@@ -45,7 +45,7 @@ def create_loglevel(level_name="", level_num=0):
     def handler(self, message, *args, **kwargs):
         # logger takes its '*args' as 'args'
         if self.isEnabledFor(level_num):
-            self._log(level_num, message, args, **kwargs)
+            self._log(level_num, message, args, **kwargs)  # pylint: disable=protected-access
 
     logging.addLevelName(level_num, level_name.upper())
     setattr(logging.Logger, level_name.lower(), handler)
