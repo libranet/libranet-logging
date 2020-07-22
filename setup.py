@@ -118,7 +118,7 @@ setuptools.setup(
     author="Wouter Vanden Hove",
     author_email="wouter@wvhconsulting.org",
     url="https://github.com/Libranet/libranet_logging",
-    license="Other/Proprietary License",  # Copyright OSN, all rights reserved.
+    license="MIT",
     packages=setuptools.find_packages("src"),
     package_dir={"": "src"},
     py_modules=[
