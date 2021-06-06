@@ -28,7 +28,7 @@ Logfiles are your best-friend
 
 
 Goal of libranet_logging
--------------------
+------------------------
 Make it as easy as possible to enable and properly use the full power of the python logging-framework
 
 python logging-module contains:
