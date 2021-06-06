@@ -3,6 +3,7 @@
 # https://pypi.python.org/pypi/check-manifest
 
 include Makefile
+include .pylintc
 
 recursive-include docs *.jpg
 recursive-include docs *.png
