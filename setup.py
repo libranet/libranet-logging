@@ -79,7 +79,7 @@ long_description = (
 classifiers = [
     # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     "Development Status :: 4 - Beta",
-    "License :: Other/Proprietary License",
+    "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Operating System :: POSIX",
     "Programming Language :: Python",
