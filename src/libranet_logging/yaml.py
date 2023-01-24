@@ -10,6 +10,7 @@ please see:
   - https://github.com/yaml/pyyaml/wiki/PyYAML-yaml.load(input)-Deprecation
 
 """
+import json
 import os
 
 import yaml
@@ -22,18 +23,27 @@ def constructor_env(loader, node):
         > !env ENVVAR_NAME, DEFAULTVALUE_IF_ENVVAR_NOT_SET
 
     """
+
     if "," not in node.value:
         # no default-value provided
         envname = loader.construct_scalar(node)
         default = ""
     else:
-        envname, default = loader.construct_scalar(node).split(",")
+        envname, default = loader.construct_scalar(node).split(",", 1)
         default = default.replace('"', "").replace("'", "").strip()
 
+        try:
+            # "null" -> None
+            default = json.loads(default)
+        except json.JSONDecodeError:
+            pass
+
     value = os.environ.get(envname) or default
-    if ";" in value:
+
+    sep = os.getenv("LIBRANET_LOGGING_SEPARATOR","|")
+    if value and sep in value:
         # env-variable as array, convert to list
-        value = [x.strip() for x in value.split(";") if x]
+        value = [x.strip() for x in value.split(sep) if x]
 
     return value
 

@@ -7,7 +7,7 @@ import os
 import click
 import logging_tree
 
-from .logconfig import get_default_logging_yml, initialize
+from libranet_logging.logconfig import get_default_logging_yml, initialize
 
 
 @click.command()

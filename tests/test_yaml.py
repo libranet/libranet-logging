@@ -8,15 +8,15 @@ def test_read_yaml(env, monkeypatch, tests_dir):
     from libranet_logging.yaml import read_yaml
 
     monkeypatch.setenv("SMTP_SUBJECT", "my TEST subject")
-    monkeypatch.setenv("SMTP_FROM", "testing@ondernemersnetwerk.be")
-    monkeypatch.setenv("SMTP_TO", "xxx@ondernemersnetwerk.be;yyy@ondernemersnetwerk.be")
+    monkeypatch.setenv("SMTP_FROM", "test@example.com")
+    monkeypatch.setenv("SMTP_TO", "xxx@example.com|yyy@example.com")
 
     existing_yaml_path = tests_dir / "logging_email_substitution.yml"
     data = read_yaml(existing_yaml_path)
 
     email = data["handlers"]["email"]
-    assert email["fromaddr"] == "testing@ondernemersnetwerk.be"
-    assert email["toaddrs"] == ["xxx@ondernemersnetwerk.be", "yyy@ondernemersnetwerk.be"]
+    assert email["fromaddr"] == "testg@example.com"
+    assert email["toaddrs"] == ["xxx@example.com", "yyy@example.com"]
     assert email["subject"] == "my TEST subject"
 
 
@@ -31,6 +31,6 @@ def test_read_yaml_unset_envvar(env, monkeypatch, tests_dir):
     data = read_yaml(existing_yaml_path)
 
     email = data["handlers"]["email"]
-    assert email["fromaddr"] == "application@ondernemersnetwerk.be"
-    assert email["toaddrs"] == ["xxx@ondernemersnetwerk.be", "yyy@ondernemersnetwerk.be"]
+    assert email["fromaddr"] == "app@example.com"
+    assert email["toaddrs"] == ["xxx@example.com", "yyy@example.com"]
     assert email["subject"] == ""

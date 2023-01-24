@@ -13,7 +13,8 @@ You can use following env-variables:
   optional env-vars:
     - LOGLEVEL_ROOT
     - LOGLEVEL_libranet_logging
-    - LOGLEVEL_LIBRANET_XXX  (future libranet-packages)
+    - LOG_HANDLERS="console|debug_file|info_file|warning_file|error_file"
+
 
     If missing, these default to DEBUG
 

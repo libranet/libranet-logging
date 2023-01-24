@@ -248,7 +248,6 @@ def initialize(
     capture_warnings=True,
     silent=False,
     use_print=False,
-    disable_console=False,
     variables=None,
 ):
     """Initialize logging configuration with a yaml-file.
@@ -259,7 +258,6 @@ def initialize(
         capture_warnings:
         silent:
         use_print:
-        disable_console:
         variables:
 
     Returns:
@@ -269,7 +267,6 @@ def initialize(
     path = str(path) or os.environ.get("PYTHON_LOG_CONFIG", "") or get_default_logging_yml()
 
     config = read_yaml(path, variables=variables)
-    config = remove_console(config, disable_console=disable_console)
     config = convert_filenames(config, logdir=logdir)
     config = remove_lower_level_handlers(config)
     validate_logging(config, path)

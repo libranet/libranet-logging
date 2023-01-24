@@ -4,5 +4,5 @@
 __version__ = '1.3.dev0'
 
 from .cli import print_loggers, print_tree  # noqa
-from .logconfig import initialize  # noqa
+from .logconfig import initialize, output_logging_tree  # noqa
 from .loglevel import create_loglevel, create_loglevel_trace  # noqa

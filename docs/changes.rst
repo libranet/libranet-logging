@@ -4,7 +4,12 @@ Changelog
 1.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- No longer try to be smart about interactive mode or not.
+  You can set the active logging-handlers by setting the env-var ``LOG_HANDLERS```
+
+- Remove ``disable_console`` as input-parameter to ``libranet_logging.initialize()``.
+
+- Change default separator from ``;`` to ``|``. Use set via env-var ``LOG_HANDLERS``.
 
 
 1.2 (2021-06-06)
