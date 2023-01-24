@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3 (unreleased)
+1.3 (2023-01-24)
 ----------------
 
 - No longer try to be smart about interactive mode or not.
