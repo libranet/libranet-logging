@@ -176,7 +176,7 @@ handlers:
         class: logging.handlers.RotatingFileHandler
         level: DEBUG
         formatter: generic
-        filename: debug.log
+        filename: 10-debug.log
         maxBytes: 104857600 # 100 MB = 100*1024*1024
         backupCount: 10
         encoding: utf8
@@ -185,17 +185,17 @@ handlers:
 
     info_file:
         <<: *default
-        filename: info.log
+        filename: 20info.log
         level: INFO
 
     warning_file:
         <<: *default
-        filename: warning.log
+        filename: 30-warning.log
         level: WARNING
 
     error_file:
         <<: *default
-        filename: errors.log
+        filename: 40-errors.log
         level: ERROR
 
 loggers:
