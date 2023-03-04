@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """libranet_logging.loglevel."""
-import functools
+import functools as ft
 import logging
 
 
@@ -51,4 +51,4 @@ def create_loglevel(level_name="", level_num=0):
     setattr(logging.Logger, level_name.lower(), handler)
 
 
-create_loglevel_trace = functools.partial(create_loglevel, level_name="TRACE", level_num=5)
+create_loglevel_trace = ft.partial(create_loglevel, level_name="TRACE", level_num=5)
