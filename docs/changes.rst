@@ -4,7 +4,17 @@ Changelog
 1.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Modernize setup, switch to ``pyproject.toml`` and remove old-style ``setup.py`` and ``setup.cfg``.
+
+- Remove no longer needed ``MANIFEST.in``.
+
+- Remove ``etc/pip-requirements``, replaced by ``poetry.lock``.
+
+- Move ``.pylintrc`` to ``pyproject.toml``
+
+- Update all dependencies.
+
+- Add ``pyroma`` as dev-dependency.
 
 
 1.3 (2023-01-24)

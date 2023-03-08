@@ -15,7 +15,7 @@ def test_read_yaml(env, monkeypatch, tests_dir):
     data = read_yaml(existing_yaml_path)
 
     email = data["handlers"]["email"]
-    assert email["fromaddr"] == "testg@example.com"
+    assert email["fromaddr"] == "test@example.com"
     assert email["toaddrs"] == ["xxx@example.com", "yyy@example.com"]
     assert email["subject"] == "my TEST subject"
 
