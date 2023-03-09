@@ -6,5 +6,5 @@ Requirements
 Pip-requirements
 ------------------
 
-.. literalinclude:: ../etc/pip-requirements.txt
+.. literalinclude:: requirements.txt
 

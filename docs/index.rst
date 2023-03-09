@@ -1,5 +1,5 @@
 libranet_logging
-===========
+================
 
 .. toctree::
    :maxdepth: 2
