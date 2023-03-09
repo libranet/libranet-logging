@@ -4,6 +4,8 @@ Changelog
 1.4 (unreleased)
 ----------------
 
+- Add ``.readthedocs.yaml``.
+
 - Modernize setup, switch to ``pyproject.toml`` and remove old-style ``setup.py`` and ``setup.cfg``.
 
 - Remove no longer needed ``MANIFEST.in``.
