@@ -1,8 +1,8 @@
 [![Testing](https://img.shields.io/github/actions/workflow/status/libranet/libranet-logging/testing.yaml?branch=main&longCache=true&style=flat-square&label=tests&logo=GitHub%20Actions&logoColor=fff")](https://github.com/libranet/libranet-logging/actions/workflows/testing.yaml)
 [![Linting](https://img.shields.io/github/actions/workflow/status/libranet/libranet-logging/linting.yaml?branch=main&longCache=true&style=flat-square&label=Linting&logo=GitHub%20Actions&logoColor=fff")](https://github.com/libranet/libranet-logging/actions/workflows/linting.yaml)
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/libranet/libranet-logging/blob/main/docs/license.md)
 [![Read the Docs](https://readthedocs.org/projects/libranet-logging/badge/?version=latest)](https://libranet-logging.readthedocs.io/en/latest/)
 [![PyPi Package](https://img.shields.io/pypi/v/libranet-logging?color=%2334D058&label=pypi%20package)](https://pypi.org/project/libranet-logging/)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/libranet/libranet-logging/blob/main/docs/license.md)
 
 
 ## Installation
