@@ -7,9 +7,9 @@ mypy-which:
 
 .PHONY: mypy ## run mypy on python-files
 mypy: mypy-which
-	mypy src tests
+	- mypy src tests
 
 
 .PHONY: mypy-report ## run mypy with html-reporting
 mypy-report: mypy-which
-	mypy src tests --html-report  var/coverage-mypy/
+	- mypy src tests --html-report  var/coverage-mypy/

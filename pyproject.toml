@@ -150,6 +150,7 @@ pytest-click = ">=1.1.0"
 [tool.poetry.group.typing.dependencies]
 lxml = { version = ">=4.9.2", optional = true, allow-prereleases = false } # mypy coverage-report
 mypy = ">=0.931"
+types-pyyaml = ">=6.0.12.8"
 
 [tool.poetry.scripts]
 libranet-print-logging-tree = "libranet_logging.cli:print_logging_tree"
