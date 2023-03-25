@@ -37,6 +37,9 @@ jobs:
             - name: Install
               run: |
                   make install
+                  printenv PATH
+                  which python
+                  which ruff
 
             # - name: Flake8
             #   run: |
