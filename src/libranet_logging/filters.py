@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
 """libranet_logging.filters."""
 import logging
 import re
 
 
 class SimpleStringFilter(logging.Filter):
-    """SimpleStringFilter is a logging-filter based in simple string occurence in the logmessage.
-    """
+    """SimpleStringFilter is a logging-filter based in simple string occurence in the logmessage."""
 
     def __init__(self, name="", params=None) -> None:
         super().__init__(name=name)
@@ -32,8 +30,7 @@ class SimpleStringFilter(logging.Filter):
 
 
 class RegexFilter(logging.Filter):
-    """RegexFilter is a logging-filter based in regular expressions.
-    """
+    """RegexFilter is a logging-filter based in regular expressions."""
 
     def __init__(self, name="", params=None) -> None:
         super().__init__(name=name)

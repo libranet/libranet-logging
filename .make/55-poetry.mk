@@ -1,10 +1,10 @@
 # See ../makefile
 
-
 .PHONY: symlink-venv-dirs ## symlinks .venv-dirs to make bin/python work
 symlink-venv-dirs:
 	ln -sf .venv/bin ;\
 	ln -sf .venv/lib ;\
+	ln -sf .venv/lib64 ;\
 	ln -sf .venv/pyvenv.cfg
 
 
@@ -27,6 +27,11 @@ poetry-install-no-dev:
 	poetry install --no-dev
 
 
+.PHONY: poetry-self-update ## update poetry itself
+poetry-self-update:
+	poetry self update
+
+
 .PHONY: poetry-update ## run poetry update to update your project-dependencies
 poetry-update:
 	poetry update
@@ -35,6 +40,16 @@ poetry-update:
 .PHONY: poetry-build ## run poetry build to create the python-package
 poetry-build:
 	poetry build
+
+
+.PHONY: poetry-check ## run poetry check on python-package
+poetry-check:
+	poetry check
+
+
+.PHONY: poetry-lock-check ## run poetry lock --check on python-package
+poetry-lock-check:
+	poetry lock --check
 
 
 .PHONY: poetry-env-info ## run env info
@@ -50,3 +65,8 @@ poetry-export-requirements:
 .PHONY: poetry-export-requirements-docs  ## generate a requirements.txt-file for readthedocs
 poetry-export-requirements-docs:
 	poetry export --format requirements.txt --only=docs --without-hashes --output docs/requirements.txt
+
+
+.PHONY: poetry-relax ## run poetry relax to relax upper bounds in pyproject.oml
+poetry-relax:
+	poetry relax

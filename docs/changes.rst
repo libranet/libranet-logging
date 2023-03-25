@@ -4,6 +4,9 @@ Changelog
 1.4 (unreleased)
 ----------------
 
+- Remove dependency on ``distutils`` by copying over
+  function ``distutils.utils.str2bool``.
+
 - Add ``.readthedocs.yaml``.
 
 - Modernize setup, switch to ``pyproject.toml`` and remove old-style ``setup.py`` and ``setup.cfg``.

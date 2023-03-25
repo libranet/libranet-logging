@@ -19,27 +19,29 @@
 
 #   - Symlinks are always files, even if they point to a dir. So never put a / at the end.
 
+# archived files
+/_archive/
+
 # dev-symlinks to .venv to make bin/python work
 /bin
 /lib
+/lib64
 /pyvenv.cfg
 
-# python-distributions / packaging
-/dist/
-
-# .env contains secrets
-/.env
-
-# the actual in-project virtual-environment
+# exclude actual virtual-environment
 /.venv/
 
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# distribution / packaging
+/dist/
 
-# swap-files of vi-editor
-*.swp
+# .env can contain secrets
+/.env
 
-# exclude generated files like cache-files, logfiles, ...
+# exclude toplevel var-dir
 /var/
+
+# exclude generated python-files Byte-compiled / optimized / DLL files
+__pycache__/
+
+# makefile
+targets.log

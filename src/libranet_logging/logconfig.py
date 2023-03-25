@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
 """libranet_logging.logconfig."""
-import distutils.util
 import logging
 import logging.config
 import operator
@@ -92,7 +90,6 @@ def is_interactive_shell():
     return False
 
 
-
 def get_sorted_lognames():
     """
 
@@ -132,15 +129,13 @@ def ensure_dir(directory):
     """
     if os.path.exists(directory):
         if not os.path.isdir(directory):
-            raise OSError(
-                f"The provided path to the log-directory exist but is not a directory: {directory}"
-            )
+            raise OSError(f"The provided path to the log-directory exist but is not a directory: {directory}")
     else:
         os.makedirs(directory)
 
 
 def convert_filenames(config, logdir=""):
-    """"Convert all relative filenames in the handlers to absolute paths.
+    """ "Convert all relative filenames in the handlers to absolute paths.
 
     Args:
         config:
@@ -149,12 +144,7 @@ def convert_filenames(config, logdir=""):
     Returns:
 
     """
-    logdir = (
-        str(logdir)
-        or config.get("logdir")
-        or os.environ.get("PYTHON_LOG_DIR")
-        or os.path.expanduser("~/logs")
-    )
+    logdir = str(logdir) or config.get("logdir") or os.environ.get("PYTHON_LOG_DIR") or os.path.expanduser("~/logs")
     ensure_dir(logdir)
 
     for handler in config.get("handlers", []):
@@ -189,12 +179,8 @@ def remove_lower_level_handlers(config):
             break
 
         # strip lower-level handlers
-        config["handlers"] = {
-            k: v for (k, v) in config["handlers"].items() if not k.startswith(lvl.lower())
-        }
-        config["root"]["handlers"] = [
-            hdr for hdr in config["root"]["handlers"] if not hdr.startswith(lvl.lower())
-        ]
+        config["handlers"] = {k: v for (k, v) in config["handlers"].items() if not k.startswith(lvl.lower())}
+        config["root"]["handlers"] = [hdr for hdr in config["root"]["handlers"] if not hdr.startswith(lvl.lower())]
 
     return config
 
@@ -212,6 +198,22 @@ def validate_logging(log_config, path):
         raise CerberusValidationError(msg)
 
 
+def strtobool(val):  # copied from distutils.util.strtobool
+    """Convert a string representation of truth to true (1) or false (0).
+
+    True values are 'y', 'yes', 't', 'true', 'on', and '1'; false values
+    are 'n', 'no', 'f', 'false', 'off', and '0'.  Raises ValueError if
+    'val' is anything else.
+    """
+    val = val.lower()
+    if val in ("y", "yes", "t", "true", "on", "1"):
+        return 1
+    elif val in ("n", "no", "f", "false", "off", "0"):
+        return 0
+    else:
+        raise ValueError("invalid truth value %r" % (val,))
+
+
 def output_logging_tree(use_print=False):
     """
 
@@ -222,7 +224,7 @@ def output_logging_tree(use_print=False):
 
     """
     env_var_string = os.environ.get("PYTHON_ENABLE_LOGGING_TREE", "false")
-    visible = distutils.util.strtobool(env_var_string)
+    visible = strtobool(env_var_string)
     if not visible:
         return
 

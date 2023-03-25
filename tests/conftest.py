@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # pylint: disable=missing-function-docstring
 """conftest.py - custom pytest-plugins.
 

@@ -47,10 +47,10 @@ Run pytest via:
 .. code-block:: sh
 
   > cd <env-dir>
-  > bin/py.test src/libranet_logging/
+  > bin/pytest src/libranet_logging/
 
   > cd <env-dir>src/libranet_logging
-  > py.test
+  > pytest
 
    (libranet) wouter@midgard: <env-dir>src/libranet_logging >  make py
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """libranet_logging.loglevel."""
 import functools as ft
 import logging

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # pylint: disable=import-outside-toplevel
 # pylint: disable=missing-function-docstring
 """Testing of module libranet_logging.logconfig."""
@@ -59,9 +58,11 @@ def test_initialize_with_invalid_yaml2(tests_dir):
     with pytest.raises(CerberusValidationError) as excinfo:
         initialize(logging_yml)
 
-    expected = f"logconfig {logging_yml} contains errors: [('formatters', ['required field']), " \
-               "('handlers', ['required field']), ('loggers', ['required field']), " \
-               "('root', ['required field']), ('version', ['required field'])]"
+    expected = (
+        f"logconfig {logging_yml} contains errors: [('formatters', ['required field']), "
+        "('handlers', ['required field']), ('loggers', ['required field']), "
+        "('root', ['required field']), ('version', ['required field'])]"
+    )
     assert excinfo.value.args[0] == expected
 
 
