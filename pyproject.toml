@@ -117,7 +117,7 @@ pyroma = ">=4.2"
 twine = ">=4.0.2"
 
 [tool.poetry.group.dev.dependencies]
-black = { version = ">=22.1.0", optional = true, allow-prereleases = true }
+black = { version = ">=22.1.0", allow-prereleases = true }
 flake8 = ">=5.0.4"
 flake8-pyproject = ">=1.2.2"
 isort = ">=5.10.1"
