@@ -1,4 +1,4 @@
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/libranet/httpclient-logging/blob/main/docs/license.md) [![Read the Docs](https://readthedocs.org/projects/httpclient-logging/badge/?version=latest)](https://httpclient-logging.readthedocs.io/en/latest/) [![PyPi Package](https://img.shields.io/pypi/v/httpclient-logging?color=%2334D058&label=pypi%20package)](https://pypi.org/project/httpclient-logging/)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/libranet/libranet-logging/blob/main/docs/license.md) [![Read the Docs](https://readthedocs.org/projects/libranet-logging/badge/?version=latest)](https://libranet-logging.readthedocs.io/en/latest/) [![PyPi Package](https://img.shields.io/pypi/v/libranet-logging?color=%2334D058&label=pypi%20package)](https://pypi.org/project/libranet-logging/)
 
 
 ## Installation
@@ -6,43 +6,89 @@
 Install via pip:
 
 ```bash
-> bin/pip install httpclient_logging
+> bin/pip install libranet_logging
 ```
 
 Or add to your poetry-based project:
 
 ```bash
-> poetry add httpclient_logging
+> poetry add libranet_logging
 ```
 
 
-## Usage
+# Why use logging?
 
-The only thing left to do for you is the create a ``.env`` in the root of your project.
+Logfiles are your best-friend
 
+  - during development, where debugmode is developmentmode
 
-## Registered sitecustomize-entrypoint
+  - more important: while running in PRD,
+    - it shows how the application is being used, by whom, and if it's successfull
+    - allows to become pro-active. There is no need to wait for bugreports from users.
 
-The ``httpclient_logging.entrypoint``-function is registered as a ``sitecustomize``-entrypoint in our pyproject.toml_:
-
-``` toml
-    [tool.poetry.plugins]
-    [tool.poetry.plugins."sitecustomize"]
-    httpclient_logging = "httpclient_logging:entrypoint"
-```
-
-Sitecustomize and all its registered entrypoints will be executed at the start of *every* python-process.
-For more information, please see [sitecustomize-entrypoints](http://pypi.python.org/pypi/sitecustomize-entrypoints)
+  - most important: during urgent troubleshooting on PRD (AKA panic-mode)
+    - heisenbugs,  difficult to reproduce.
 
 
-## Compatibility
+# Goal of libranet_logging
 
- [![Python Version](https://img.shields.io/pypi/pyversions/httpclient-logging?:alt:PyPI-PythonVersion)](https://pypi.org/project/httpclient-logging/)
- [![PyPI - Implementation](https://img.shields.io/pypi/implementation/httpclient-logging?:alt:PyPI-Implementation)](https://pypi.org/project/httpclient-logging/)
+Make it as easy as possible to enable and properly use the full power of the python logging-framework
 
-``httpclient-logging``  works on Python 3.8+, including PyPy3. Tested until Python 3.11,
+python logging-module contains:
+  - loggers, hierarchical
+  - handlers
+    - formatters
+    - filters
+
+Think of logger=message-channel, handler=subscriber to a channel
+
+Minimize the need to make changes in code
+
+Move all config out of code and into a config-file "logging.yml"
+
+  - logging to a file should be as simple as:
+
+        ```python
+        >>> import logging
+        >>> logging.getLogger('panicmode')
+        ```
+
+# Features
+
+ - load logging-configuration from a yaml-config
+
+ - validate yaml-file for missing keys, invalid values
+
+ - configurable via env-variables
+   - sane defaults if env-var is not set
+
+ - when logging to console, have colorized logging,
+   - but nowhere else
+   - configurable colors (avoid blue on black)
+
+ - integrate python-warnings
+ - add sample email-logger
+ - add sample syslog-logger
+
+ - avoid empty files that will remain empty
+   - cleanup dedicated file-handlers based on root-loglevel
+
+ - future ideas:
+   - integrate with kibana
+   - log as json, structlog
+
+       - https://logmatic.io/blog/python-logging-with-json-steroids/
+       - https://medium.com/@sanchitsokhey/centralised-logging-for-django-gunicorn-and-celery-using-elk-stack-76b13c54414c
+       - https://logmatic.io/blog/beyond-application-monitoring-discover-logging-best-practices/
 
 
-## Notable dependencies
+ - in code throw out all
+   - formatting,
+   - handler-config,
+   - setting loglevel
+   - debug-flags like::
 
-- [sitecustomize-entrypoints](http://pypi.python.org/pypi/sitecustomize-entrypoints)
+        ```python
+        >>> if DEBUG:
+        >>>     log.debug(....)
+        ```
