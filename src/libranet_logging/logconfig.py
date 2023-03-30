@@ -27,7 +27,7 @@ logging_schema = {
         "valuesrules": {
             "type": "dict",
             "schema": {
-                "format": {"type": "string", "required": True},
+                "format": {"type": "string", "required": False},
                 "datefmt": {"type": "string", "required": False},
             },
         },
