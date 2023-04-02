@@ -1,11 +1,13 @@
 """libranet_logging.logconfig."""
+# import pkg_resources
+import importlib.resources as pkg_resources
 import logging
 import logging.config
 import operator
 import os
+import pathlib as pl
 
 import logging_tree
-import pkg_resources
 
 from libranet_logging.yaml import read_yaml
 
@@ -235,13 +237,15 @@ def output_logging_tree(use_print=False):
         log.debug(configured_log_description)
 
 
-def get_default_logging_yml():
+def get_default_logging_yml() -> pl.Path:
     """
+    Returns the path to the default logging configuration file.
 
     Returns:
-
+        A `Path` object representing the path to the default logging configuration file.
     """
-    return pkg_resources.resource_filename("libranet_logging", "etc/logging.yml")
+    # return pkg_resources.resource_filename("libranet_logging", "etc/logging.yml")
+    return pl.Path(pkg_resources.files("libranet_logging") / "etc/logging.yml")
 
 
 def initialize(
@@ -266,7 +270,7 @@ def initialize(
 
     """
     variables = variables or {}
-    path = str(path) or os.environ.get("PYTHON_LOG_CONFIG", "") or get_default_logging_yml()
+    path = str(path) or os.environ.get("PYTHON_LOG_CONFIG", "") or str(get_default_logging_yml())
 
     config = read_yaml(path, variables=variables)
     config = convert_filenames(config, logdir=logdir)

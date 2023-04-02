@@ -224,19 +224,7 @@ loggers:
 root:
     # You can get the root-logger via logging.getLogger(),
     # Normally you don't need to use the root-logger directly, since all other loggers descend from it.
-
     # The dedicated "<loglevel>_file"-handlers are automatically removed if the root-loglevel is set higher.
+    level: !env LOGLEVEL_ROOT, NOTSET
 
-    level: !env LOGLEVEL_ROOT, DEBUG
-    handlers:
-        !env LOG_HANDLERS
-        # - console
-        # - debug_file
-        # - info_file
-        # - warning_file
-        # - error_file
-        # - email
-        # - logstash_udp
-        # - logstash_tcp
-        # - syslog_local6
-        # - syslog_remote
+    handlers: !env LOG_HANDLERS, "console|debug_file|info_file|warning_file|error_file"

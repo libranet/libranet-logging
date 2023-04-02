@@ -10,7 +10,6 @@ For more information about conftest.py, please see:
 import os
 import pathlib
 
-import pkg_resources
 import pytest
 
 
@@ -20,10 +19,12 @@ def tests_dir():
     return pathlib.Path(tests_dir_)
 
 
-@pytest.fixture(scope="session")
-def pkg_dir():
-    pkg_dir_ = pkg_resources.resource_filename("libranet_logging", "")
-    return pathlib.Path(pkg_dir_)
+# @pytest.fixture(scope="session")
+# def pkg_dir():
+#     pkg_dir_ = pkg_resources.resource_filename("libranet_logging", "")
+
+#     return pl.Path(pkg_resources.files("libranet_logging") / "etc/logging.yml")
+#     return pathlib.Path(pkg_dir_)
 
 
 @pytest.fixture(scope="function")

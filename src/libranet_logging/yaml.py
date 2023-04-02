@@ -67,26 +67,26 @@ def read_yaml(path, variables=None):
         msg = f"\nThe configfile {path} does not exist.\n"
         raise SystemExit(msg)
 
-    # try:  # Pyyaml >= 5.1
-    #     loader = yaml.loader.FullLoader
-    #     loader.add_constructor("!env", constructor_env)
-    # except AttributeError:  # pragma: no cover, PyYaml < 5.0
-    #     loader = None
-    #     yaml.add_constructor("!env", constructor_env)
+    try:  # Pyyaml >= 5.1
+        loader = yaml.loader.FullLoader
+        loader.add_constructor("!env", constructor_env)
+    except AttributeError:  # pragma: no cover, PyYaml < 5.0
+        loader = None
+        yaml.add_constructor("!env", constructor_env)
 
-    yaml.add_constructor("!env", constructor_env, yaml.SafeLoader)
+    # yaml.add_constructor("!env", constructor_env, yaml.SafeLoader)
 
     with open(path, "r") as stream:
         try:
             data = stream.read()
             if variables:
                 data = data.format(**variables)  # TODO, will break on %s() in yml
-            # if loader:
-            #     data_yml = yaml.load(data, Loader=loader)
-            # else:  # pragma: no cover, PyYaml < 5.0
-            #     data_yml = yaml.load(data)
+            if loader:
+                data_yml = yaml.load(data, Loader=loader)
+            else:  # pragma: no cover, PyYaml < 5.0
+                data_yml = yaml.load(data)
 
-            data_yml = yaml.safe_load(data)
+            # data_yml = yaml.safe_load(data)
 
         except Exception as exc:
             msg = f"Failed to load yml-file {path}: {exc}"

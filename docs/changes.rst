@@ -4,6 +4,10 @@ Changelog
 1.4 (unreleased)
 ----------------
 
+- Remove ``click`` as dependency.
+
+- Remove ``libranet-print-logging-tree``-executable.
+
 - Remove dependency on ``distutils`` by copying over
   function ``distutils.utils.str2bool``.
 
