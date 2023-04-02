@@ -2,7 +2,7 @@
 
 .PHONY: pylint-which  ## show which pylint is used
 pylint-which:
-	- which pylint
+	@ which pylint
 
 
 .PHONY: pylint  ## run pylint on python-files
