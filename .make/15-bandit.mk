@@ -1,6 +1,6 @@
 # See ../makefile
 
-.PHONY: randit-which  ## show which bandit is used
+.PHONY: bandit-which  ## show which bandit is used
 bandit-which:
 	@ which bandit
 
