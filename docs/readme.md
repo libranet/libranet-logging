@@ -11,13 +11,13 @@
 Install via pip:
 
 ```bash
-> bin/pip install libranet_logging
+> bin/pip install libranet-logging
 ```
 
 Or add to your poetry-based project:
 
 ```bash
-> poetry add libranet_logging
+> poetry add libranet-logging
 ```
 
 
@@ -35,7 +35,7 @@ Logfiles are your best-friend
     - heisenbugs,  difficult to reproduce.
 
 
-# Goal of libranet_logging
+# Goal of libranet-logging
 
 Make it as easy as possible to enable and properly use the full power of the python logging-framework
 

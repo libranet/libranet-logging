@@ -4,6 +4,8 @@ Changelog
 1.4 (unreleased)
 ----------------
 
+- Remove compatibility with ``PyYaml`` < 5.1.
+
 - Remove ``click`` as dependency.
 
 - Remove ``libranet-print-logging-tree``-executable.

@@ -24,7 +24,7 @@ libranet-logging
     :maxdepth: 2
     :caption: Modules
 
-    modules/httpclient_logging/index.rst
+    modules/libranet_logging/index.rst
 
 
 
