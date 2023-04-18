@@ -4,11 +4,11 @@
 """Testing of module libranet_logging.loglevel."""
 
 
-class LogRecord:
+class LogRecord:  # pylint: disable=too-few-public-methods
     def __init__(self, msg):
         self.msg = msg
 
-    def getMessage(self):
+    def getMessage(self):  # pylint: disable=invalid-name
         return self.msg
 
 

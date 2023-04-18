@@ -37,7 +37,7 @@
 #     <name-logger>:
 #         level: !env <NAME-ENV-VARIABLE>, <DEFAULT-IF-ENV-VAR-IS-MISSING>
 
-logdir: !env PYTHON_LOG_DIR
+logdir: !env LOG_DIR
 
 version: 1
 

@@ -4,6 +4,10 @@ Changelog
 1.4 (unreleased)
 ----------------
 
+- Deprecate ``PYTHON_LOG_DIR``, use ``LOG_DIR`` instead.
+
+- Replace ``pkg_resources`` with ``importlib.resources``.
+
 - Remove compatibility with ``PyYaml`` < 5.1.
 
 - Remove ``click`` as dependency.

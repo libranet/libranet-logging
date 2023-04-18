@@ -5,7 +5,6 @@ import logging
 
 import pytest
 
-
 # def test_is_interactive_shell_true(monkeypatch):
 #     from libranet_logging.logconfig import is_interactive_shell
 
@@ -28,7 +27,7 @@ def test_initialize_non_logging_yml(tmpdir):
     non_logging_yml = tmpdir / "logging.yml"
     with pytest.raises(SystemExit) as excinfo:
         initialize(non_logging_yml)
-    expected_msg = "\nThe configfile {} does not exist.\n".format(non_logging_yml)
+    expected_msg = f"\nThe configfile {non_logging_yml} does not exist.\n"
     assert excinfo.value.code == expected_msg
 
 
@@ -51,7 +50,7 @@ def test_initialize_with_invalid_yaml(tests_dir):
 
 def test_initialize_with_invalid_yaml2(tests_dir):
     from libranet_logging.logconfig import initialize
-    from libranet_logging.logconfig import CerberusValidationError
+    from libranet_logging.validate import CerberusValidationError
 
     logging_yml = tests_dir / "logging_invalid_schema.yml"
 
@@ -78,7 +77,7 @@ def test_initialize_with_valid_yaml(env, tests_dir):
 def test_initialize_with_non_existing_logdir(monkeypatch, tests_dir, tmpdir):
     from libranet_logging.logconfig import initialize
 
-    monkeypatch.delenv("PYTHON_LOG_DIR")
+    monkeypatch.delenv("LOG_DIR")
     monkeypatch.setenv("HOME", str(tmpdir))
     logging_yml = tests_dir / "logging_valid.yml"
     initialize(logging_yml, logdir=tmpdir / "log_non_default")
@@ -88,7 +87,7 @@ def test_initialize_with_non_existing_logdir(monkeypatch, tests_dir, tmpdir):
 def test_initialize_with_conflicting_logdir(monkeypatch, tests_dir, tmpdir):
     from libranet_logging.logconfig import initialize
 
-    monkeypatch.delenv("PYTHON_LOG_DIR")
+    monkeypatch.delenv("LOG_DIR")
     monkeypatch.setenv("HOME", str(tmpdir))
     log_file = tmpdir.join("logs")
     log_file.write("content")

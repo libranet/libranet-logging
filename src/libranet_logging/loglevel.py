@@ -39,7 +39,7 @@ def create_loglevel(level_name="", level_num=0):
     # level_name = level_name.replace('-', '_').lower()
 
     if not isinstance(level_num, int):
-        raise ValueError("Invalid numeric log level: %s" % level_num)
+        raise ValueError(f"Invalid numeric log level: {level_num}")
 
     def handler(self, message, *args, **kwargs):
         # logger takes its '*args' as 'args'

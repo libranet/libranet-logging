@@ -8,7 +8,7 @@ For more information about conftest.py, please see:
 
 """
 import os
-import pathlib
+import pathlib as pl
 
 import pytest
 
@@ -16,15 +16,7 @@ import pytest
 @pytest.fixture(scope="session")
 def tests_dir():
     tests_dir_ = os.path.dirname(os.path.realpath(__file__))
-    return pathlib.Path(tests_dir_)
-
-
-# @pytest.fixture(scope="session")
-# def pkg_dir():
-#     pkg_dir_ = pkg_resources.resource_filename("libranet_logging", "")
-
-#     return pl.Path(pkg_resources.files("libranet_logging") / "etc/logging.yml")
-#     return pathlib.Path(pkg_dir_)
+    return pl.Path(tests_dir_)
 
 
 @pytest.fixture(scope="function")
@@ -35,5 +27,5 @@ def env(tmpdir):
     # var_tmp_dir = var_dir.mkdir('tmp')
 
     # override any existing env-variable
-    os.environ["PYTHON_LOG_DIR"] = str(var_log_dir)
+    os.environ["LOG_DIR"] = str(var_log_dir)
     return tmpdir

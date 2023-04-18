@@ -1,6 +1,5 @@
 """libranet_logging.logconfig."""
-# import pkg_resources
-import importlib.resources as pkg_resources
+import importlib.resources
 import logging
 import logging.config
 import operator
@@ -9,94 +8,16 @@ import pathlib as pl
 
 import logging_tree
 
+from libranet_logging.utils import ensure_dir, is_interactive_shell, strtobool
+from libranet_logging.validate import validate_logging
 from libranet_logging.yaml import read_yaml
-
-try:
-    import cerberus
-except ImportError:  # pragma: no cover
-    cerberus = None
 
 log = logging.getLogger(__name__)
 
 
-logging_schema = {
-    "logdir": {"type": "string", "required": False},
-    "version": {"type": "integer", "required": True},
-    "disable_existing_loggers": {"type": "integer"},
-    "formatters": {
-        "type": "dict",
-        "required": True,
-        "valuesrules": {
-            "type": "dict",
-            "schema": {
-                "format": {"type": "string", "required": False},
-                "datefmt": {"type": "string", "required": False},
-            },
-        },
-    },
-    "handlers": {
-        "type": "dict",
-        "required": True,
-        "valuesrules": {
-            "type": "dict",
-            "schema": {
-                "class": {"type": "string", "required": True},
-                # logstash-handler sets the correct formatter via code
-                # therefore the formatter-key in not required in logging.yml
-                "formatter": {"type": "string", "required": False},
-                "level": {"type": "string", "required": True},
-                "encoding": {"type": "string", "required": False},
-                "filename": {"type": "string", "required": False},
-                "stream": {"type": "string", "required": False},
-                "maxBytes": {"type": "integer", "required": False},
-                "backupCount": {"type": "integer", "required": False},
-            },
-        },
-    },
-    "loggers": {
-        "type": "dict",
-        "required": True,
-        "valuesrules": {
-            "type": "dict",
-            "schema": {
-                "handlers": {"type": "list", "required": False},
-                "level": {"type": "string", "required": False},
-                "propagate": {"type": "boolean", "required": False},
-            },
-        },
-    },
-    "root": {
-        "type": "dict",
-        "required": True,
-        "schema": {"handlers": {"type": "list", "required": True}, "level": {"type": "string"}},
-    },
-}
-
-
-class CerberusValidationError(Exception):
-    """CerberusValidationError-class."""
-
-
-def is_interactive_shell():
-    """Decide if this process is run in an interactive shell or not.
-
-    If environment-variable $TERM is present,
-    we are running this code in a interactive shell,
-    else we are run from cron or called via nrpe as a nagios-check.
-
-    Returns: boolean
-
+def get_sorted_lognames() -> list[str]:
     """
-    if os.environ.get("TERM", None):
-        return True
-    return False
-
-
-def get_sorted_lognames():
-    """
-
-    Returns:
-
+    Returns a sorted list of logging level names.
     """
     loglevels = logging._levelToName.items()  # pylint: disable=protected-access
     sorted_loglevels = sorted(loglevels, key=operator.itemgetter(0))
@@ -120,24 +41,8 @@ def remove_console(config, disable_console=False):
     return config
 
 
-def ensure_dir(directory):
-    """
-
-    Args:
-        directory:
-
-    Returns:
-
-    """
-    if os.path.exists(directory):
-        if not os.path.isdir(directory):
-            raise OSError(f"The provided path to the log-directory exist but is not a directory: {directory}")
-    else:
-        os.makedirs(directory)
-
-
 def convert_filenames(config, logdir=""):
-    """ "Convert all relative filenames in the handlers to absolute paths.
+    """ "Convert relative filenames in the handlers to absolute paths.
 
     Args:
         config:
@@ -146,7 +51,13 @@ def convert_filenames(config, logdir=""):
     Returns:
 
     """
-    logdir = str(logdir) or config.get("logdir") or os.environ.get("PYTHON_LOG_DIR") or os.path.expanduser("~/logs")
+    logdir = (
+        str(logdir)
+        or config.get("logdir")
+        or os.environ.get("LOG_DIR")
+        or os.environ.get("PYTHON_LOG_DIR")
+        or os.path.expanduser("~/logs")
+    )
     ensure_dir(logdir)
 
     for handler in config.get("handlers", []):
@@ -187,35 +98,6 @@ def remove_lower_level_handlers(config):
     return config
 
 
-def validate_logging(log_config, path):
-    """Validate the syntax of a logging.yml-file."""
-    if not cerberus:  # pragma: no cover
-        return
-
-    validator = cerberus.Validator(logging_schema, allow_unknown=True)
-    success = validator.validate(log_config)
-    if not success and validator.errors:
-        sorted_errors = sorted(validator.errors.items())
-        msg = f"logconfig {path} contains errors: {sorted_errors}"
-        raise CerberusValidationError(msg)
-
-
-def strtobool(val):  # copied from distutils.util.strtobool
-    """Convert a string representation of truth to true (1) or false (0).
-
-    True values are 'y', 'yes', 't', 'true', 'on', and '1'; false values
-    are 'n', 'no', 'f', 'false', 'off', and '0'.  Raises ValueError if
-    'val' is anything else.
-    """
-    val = val.lower()
-    if val in ("y", "yes", "t", "true", "on", "1"):
-        return 1
-    elif val in ("n", "no", "f", "false", "off", "0"):
-        return 0
-    else:
-        raise ValueError("invalid truth value %r" % (val,))
-
-
 def output_logging_tree(use_print=False):
     """
 
@@ -244,16 +126,15 @@ def get_default_logging_yml() -> pl.Path:
     Returns:
         A `Path` object representing the path to the default logging configuration file.
     """
-    # return pkg_resources.resource_filename("libranet_logging", "etc/logging.yml")
-    return pl.Path(pkg_resources.files("libranet_logging") / "etc/logging.yml")
+    return pl.Path(importlib.resources.files("libranet_logging") / "etc/logging.yml")
 
 
 def initialize(
     path="",
     logdir="",
-    capture_warnings=True,
-    silent=False,
-    use_print=False,
+    capture_warnings: bool = True,
+    silent: bool = False,
+    use_print: bool = False,
     variables=None,
 ):
     """Initialize logging configuration with a yaml-file.

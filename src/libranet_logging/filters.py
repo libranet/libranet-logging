@@ -3,7 +3,7 @@ import logging
 import re
 
 
-class SimpleStringFilter(logging.Filter):
+class SimpleStringFilter(logging.Filter):  # pylint: disable=too-few-public-methods
     """SimpleStringFilter is a logging-filter based in simple string occurence in the logmessage."""
 
     def __init__(self, name="", params=None) -> None:
@@ -29,7 +29,7 @@ class SimpleStringFilter(logging.Filter):
         return True
 
 
-class RegexFilter(logging.Filter):
+class RegexFilter(logging.Filter):  # pylint: disable=too-few-public-methods
     """RegexFilter is a logging-filter based in regular expressions."""
 
     def __init__(self, name="", params=None) -> None:
