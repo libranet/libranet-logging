@@ -4,6 +4,7 @@
 #   - for more hooks: https://pre-commit.com/hooks.html
 #
 # To avoid duplication, we try to configure the tools in pyproject.toml as much as possible.
+# we call the executables via "poetry run <executable>"
 #
 # Usage:
 #   > pre-commit install
@@ -12,129 +13,158 @@
 #   > pre-commit run --all-files
 
 repos:
-    # docs: https://black.readthedocs.io/en/stable/integrations/source_version_control.html
-    - repo: local
-      hooks:
-          - id: black
-            name: black
-            entry: poetry run black
-            args: ["--config=pyproject.toml"]
-            # "--check",  # don't write the files back, just return the status.
-            language: system # use executable found on path
-            types: [python] # check only specific filetypes
+  - repo: local
+    hooks:
+      # docs: https://black.readthedocs.io/en/stable/integrations/source_version_control.html
+      - id: black
+        name: Black
+        entry: poetry run black
+        args: ["--config=pyproject.toml"]
+        # "--check",  # don't write the files back, just return the status.
+        language: system # use executable found on path
+        require_serial: true
+        types: [python] # check only specific filetypes
 
-    # docs: https://pycqa.github.io/isort/docs/configuration/pre-commit.html
-    - repo: local
-      hooks:
-          - id: isort
-            name: isort
-            entry: poetry run isort
-            args: ["--settings-path=pyproject.toml"]
-            language: system
+  # docs: https://flake8.pycqa.org/en/latest/user/using-hooks.html
+  # - repo: local
+  #   hooks:
+  #     - id: flake8
+  #       name: Flake8
+  #       entry: poetry run flake8
+  #       language: system
+  #       require_serial: true
+  #       types: [python]
 
-    # docs: https://flake8.pycqa.org/en/latest/user/using-hooks.html
-    # - repo: local
-    #   hooks:
-    #     - id: flake8
-    #       name: flake8
-    #       entry: poetry run flake8
-    #       language: system
-    #       types: [python]
+  # docs: https://pycqa.github.io/isort/docs/configuration/pre-commit.html
+  - repo: local
+    hooks:
+      - id: isort
+        name: Isort
+        entry: poetry run isort
+        args: ["--settings-path=pyproject.toml"] # "--filter-files"
+        language: system
+        require_serial: true
+        types: [python] # pyi? cython?
 
-    #   - repo: local
-    #     hooks:
-    #       - id: mypy
-    #         name: mypy
-    #         entry: poetry run mypy
-    #         language: system
-    #         types: [python]
+  - repo: local
+    hooks:
+      - id: ruff
+        name: Ruff
+        entry: poetry run ruff
+        args: [--fix, --show-fixes]
+        # args: [--fix, --exit-non-zero-on-fix]
+        language: system
+        types: [python]
+        # exclude: ^.venv/
 
-    # docs: https://github.com/charliermarsh/ruff-pre-commit
-    - repo: local
-      hooks:
-          - id: ruff
-            name: ruff
-            entry: poetry run ruff
-            language: system
-            args: [--fix, --exit-non-zero-on-fix]
-            types: [python]
+  # - repo: local
+  #   hooks:
+  #     - id: mypy
+  #       name: Mypy
+  #       entry: poetry run mypy
+  #       language: system
+  #       types: [python]
+  #       # files: ^src/$
+  #       verbose: true # print the number of files as a sanity-check
 
-    # - repo: local
-    #   hooks:
-    #       - id: bandit
-    #         name: bandit
-    #         entry: poetry run bandit
-    #         language: system
-    #         types: [python]
-    #         # see https://github.com/PyCQA/bandit/issues/318
-    #         args: ["--configfile pyproject.toml", "--baseline etc/bandit-baseline.json"]
+  # - repo: local
+  #   hooks:
+  #     - id: bandit
+  #       name: Bandit
+  #       entry: poetry run bandit
+  #       language: system
+  #       types: [python]
+  #       # see https://github.com/PyCQA/bandit/issues/318
+  #       args: ["--configfile pyproject.toml", "--baseline etc/bandit-baseline.json"]
 
-    - repo: local
-      hooks:
-          - id: poetry-check
-            name: poetry-check
-            description: run poetry check to validate config
-            entry: poetry check
-            language: python
-            language_version: python3
-            pass_filenames: false
-            files: ^pyproject.toml$
+  - repo: local
+    hooks:
+      - id: poetry-check
+        name: Poetry check
+        description: run poetry check to validate config
+        entry: poetry check
+        language: python
+        language_version: python3
+        pass_filenames: false
+        files: ^pyproject.toml$
 
-          # - id: poetry-lock
-          #   name: poetry-lock
-          #   description: run poetry lock to update lock file
-          #   entry: poetry lock
-          #   language: python
-          #   language_version: python3
-          #   pass_filenames: false
+  - repo: local
+    hooks:
+      - id: poetry-lock-check
+        name: Check poetry.lock is up-to-date
+        description: run poetry lock --check to check lock-file is in sync
+        entry: poetry lock --check
+        language: python
+        # language_version: python3
+        pass_filenames: false
+        files: ^pyproject.toml$
 
-    # The following are all pre-commit-hooks
-    # docs: https://github.com/pre-commit/pre-commit-hooks
+      # - id: poetry-lock
+      #   name: poetry-lock
+      #   description: run poetry lock to update lock file
+      #   entry: poetry lock
+      #   language: python
+      #   language_version: python3
+      #   pass_filenames: false
 
-    - repo: local
-      hooks:
-          - id: debug-statements
-            name: check-debug-statements
-            entry: poetry run debug-statement-hook
-            language: system
-            types: [python]
+  # The following are all pre-commit-hooks
+  # docs: https://github.com/pre-commit/pre-commit-hooks
 
-    - repo: local
-      hooks:
-          - id: check-toml
-            name: check-toml
-            entry: poetry run check-toml
-            language: system
-            types: [toml]
+  - repo: local
+    hooks:
+      - id: debug-statements
+        name: Check debug statements
+        entry: poetry run debug-statement-hook
+        language: system
+        types: [python]
 
-    - repo: local
-      hooks:
-          - id: end-of-file-fixer
-            name: fix-end-of-filer
-            entry: poetry run end-of-file-fixer
-            language: system
-            types: [python]
+  - repo: local
+    hooks:
+      - id: check-toml
+        name: Check toml
+        entry: poetry run check-toml
+        language: system
+        types: [toml]
 
-    - repo: local
-      hooks:
-          - id: fix-encoding-pragma
-            name: fix-encoding-pragma
-            entry: poetry run fix-encoding-pragma --remove
-            language: system
-            types: [python]
+  - repo: local
+    hooks:
+      - id: check-yaml
+        name: Check yaml
+        entry: poetry run check-yaml
+        language: system
+        types: [yaml]
+        exclude: "etc/logging.yaml, tests/logging_*.yaml"
 
-    - repo: local
-      hooks:
-          - id: mixed-line-ending
-            name: fix-mixed-line-ending
-            entry: poetry run mixed-line-ending
-            language: system
-            types: [text]
+  - repo: local
+    hooks:
+      - id: end-of-file-fixer
+        name: Fix end of file
+        entry: poetry run end-of-file-fixer
+        language: system
+        stages: [commit, push, manual]
+        types: [python] # text too broad?
 
-    - repo: local
-      hooks:
-          - id: trailing-whitespace
-            name: fix-trailing-whitespace
-            entry: poetry run trailing-whitespace-fixer
-            language: system
-            types: [text]
+  - repo: local
+    hooks:
+      - id: fix-encoding-pragma
+        name: Fix encoding pragma
+        entry: poetry run fix-encoding-pragma --remove
+        language: system
+        types: [python]
+
+  - repo: local
+    hooks:
+      - id: mixed-line-ending
+        name: Fix mixed line-endings
+        entry: poetry run mixed-line-ending
+        language: system
+        types: [text]
+
+  - repo: local
+    hooks:
+      - id: trailing-whitespace
+        name: Fix trailing whitespace
+        entry: poetry run trailing-whitespace-fixer
+        language: system
+        stages: [commit, push, manual]
+        types: [text]
