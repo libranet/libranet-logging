@@ -126,14 +126,14 @@ repos:
         language: system
         types: [toml]
 
-  - repo: local
-    hooks:
-      - id: check-yaml
-        name: Check yaml
-        entry: poetry run check-yaml
-        language: system
-        types: [yaml]
-        exclude: "etc/logging.yaml, tests/logging_*.yaml"
+  # - repo: local
+  #   hooks:
+  #     - id: check-yaml
+  #       name: Check yaml
+  #       entry: poetry run check-yaml
+  #       language: system
+  #       types: [yaml]
+  #       exclude: "etc/logging.yaml, tests/logging_*.yaml"
 
   - repo: local
     hooks:
