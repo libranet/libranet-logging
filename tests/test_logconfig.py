@@ -24,7 +24,7 @@ import pytest
 def test_initialize_non_logging_yml(tmpdir):
     from libranet_logging.logconfig import initialize
 
-    non_logging_yml = tmpdir / "logging.yml"
+    non_logging_yml = tmpdir / "logging.yaml"
     with pytest.raises(SystemExit) as excinfo:
         initialize(non_logging_yml)
     expected_msg = f"\nThe configfile {non_logging_yml} does not exist.\n"
@@ -42,7 +42,7 @@ def test_initialize_no_path():
 def test_initialize_with_invalid_yaml(tests_dir):
     from libranet_logging.logconfig import initialize
 
-    logging_yml = tests_dir / "logging_invalid_yaml.yml"
+    logging_yml = tests_dir / "logging_invalid_yaml.yaml"
     with pytest.raises(SystemExit) as excinfo:
         initialize(logging_yml)
     assert excinfo.value.code.startswith("Failed to load yml-file")
@@ -52,7 +52,7 @@ def test_initialize_with_invalid_yaml2(tests_dir):
     from libranet_logging.logconfig import initialize
     from libranet_logging.validate import CerberusValidationError
 
-    logging_yml = tests_dir / "logging_invalid_schema.yml"
+    logging_yml = tests_dir / "logging_invalid_schema.yaml"
 
     with pytest.raises(CerberusValidationError) as excinfo:
         initialize(logging_yml)
@@ -68,7 +68,7 @@ def test_initialize_with_invalid_yaml2(tests_dir):
 def test_initialize_with_valid_yaml(env, tests_dir):
     from libranet_logging.logconfig import initialize
 
-    logging_yml = tests_dir / "logging_valid.yml"
+    logging_yml = tests_dir / "logging_valid.yaml"
     initialize(logging_yml)
     expected = ["console", "debug_file", "info_file", "warning_file", "error_file"]
     assert [x.get_name() for x in logging.root.handlers] == expected
@@ -79,7 +79,7 @@ def test_initialize_with_non_existing_logdir(monkeypatch, tests_dir, tmpdir):
 
     monkeypatch.delenv("LOG_DIR")
     monkeypatch.setenv("HOME", str(tmpdir))
-    logging_yml = tests_dir / "logging_valid.yml"
+    logging_yml = tests_dir / "logging_valid.yaml"
     initialize(logging_yml, logdir=tmpdir / "log_non_default")
     assert (tmpdir / "log_non_default").exists()
 
@@ -91,7 +91,7 @@ def test_initialize_with_conflicting_logdir(monkeypatch, tests_dir, tmpdir):
     monkeypatch.setenv("HOME", str(tmpdir))
     log_file = tmpdir.join("logs")
     log_file.write("content")
-    logging_yml = tests_dir / "logging_valid.yml"
+    logging_yml = tests_dir / "logging_valid.yaml"
     with pytest.raises(OSError):
         initialize(logging_yml, logdir=tmpdir / "logs")
     assert (tmpdir / "logs").exists()
@@ -102,7 +102,7 @@ def test_initialize_with_conflicting_logdir(monkeypatch, tests_dir, tmpdir):
 #     from libranet_logging.logconfig import initialize
 
 #     monkeypatch.delenv("TERM")
-#     logging_yml = tests_dir / "logging_valid.yml"
+#     logging_yml = tests_dir / "logging_valid.yaml"
 #     initialize(logging_yml)
 #     expected = [
 #         "console",
@@ -118,7 +118,7 @@ def test_initialize_with_logging_tree(capsys, env, monkeypatch, tests_dir):
     from libranet_logging.logconfig import initialize
 
     monkeypatch.setenv("PYTHON_ENABLE_LOGGING_TREE", "1")
-    logging_yml = tests_dir / "logging_valid.yml"
+    logging_yml = tests_dir / "logging_valid.yaml"
     initialize(logging_yml)
 
     out, err = capsys.readouterr()
@@ -139,7 +139,7 @@ def test_initialize_without_logging_tree(capsys, env, monkeypatch, tests_dir):
     from libranet_logging.logconfig import initialize
 
     monkeypatch.delenv("PYTHON_ENABLE_LOGGING_TREE", raising=False)
-    logging_yml = tests_dir / "logging_valid.yml"
+    logging_yml = tests_dir / "logging_valid.yaml"
     initialize(logging_yml)
 
     out, err = capsys.readouterr()

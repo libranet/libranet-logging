@@ -119,14 +119,14 @@ def output_logging_tree(use_print=False):
         log.debug(configured_log_description)
 
 
-def get_default_logging_yml() -> pl.Path:
+def get_default_logging_yaml() -> pl.Path:
     """
     Returns the path to the default logging configuration file.
 
     Returns:
         A `Path` object representing the path to the default logging configuration file.
     """
-    return pl.Path(importlib.resources.files("libranet_logging") / "etc/logging.yml")
+    return pl.Path(importlib.resources.files("libranet_logging") / "etc/logging.yaml")
 
 
 def initialize(
@@ -151,7 +151,7 @@ def initialize(
 
     """
     variables = variables or {}
-    path = str(path) or os.environ.get("PYTHON_LOG_CONFIG", "") or str(get_default_logging_yml())
+    path = str(path) or os.environ.get("PYTHON_LOG_CONFIG", "") or str(get_default_logging_yaml())
 
     config = read_yaml(path, variables=variables)
     config = convert_filenames(config, logdir=logdir)

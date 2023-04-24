@@ -4,7 +4,11 @@ Changelog
 1.4 (unreleased)
 ----------------
 
-- Deprecate ``PYTHON_LOG_DIR``, use ``LOG_DIR`` instead.
+- Change yaml-extension from ``*.yml`` to ``*.yaml``.
+
+- Renamed environment-variable ``PYTHON_LOG_CONFIG`` into ````.
+
+- Renamed environment-variable ``PYTHON_LOG_DIR`` into ``LOG_DIR``.
 
 - Replace ``pkg_resources`` with ``importlib.resources``.
 

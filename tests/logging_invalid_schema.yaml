@@ -1,6 +1,6 @@
 # This is a comment.
 
-logdir: !env PYTHON_LOG_DIR
+logdir: !env LOG_DIR
 
 # version: 1  # violates the logging-schema
 

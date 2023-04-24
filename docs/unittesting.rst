@@ -5,7 +5,7 @@ Unittesting
 
 Introduction
 ------------
-Our python-package ``libranet_logging`` comes with a series of tests to check
+Our python-package ``libranet-logging`` comes with a series of tests to check
 the validity of our code. Some are unittests, others are full integration-tests.
 The distinction between the several types of tests is of lesser importance.
 

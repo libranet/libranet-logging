@@ -5,7 +5,6 @@ libranet-logging
     :maxdepth: 2
 
     readme
-    installation
     usage
     unittesting
     changes
@@ -25,9 +24,6 @@ libranet-logging
     :caption: Modules
 
     modules/libranet_logging/index.rst
-
-
-
 
 
 Indices and tables

@@ -79,6 +79,22 @@ formatters:
         format: "%(levelname)-7s on %(name)-s: \n\n%(message)s"
         datefmt: "%Y/%m/%d %H:%M:%S"
 
+    colored:
+        "()": "colorlog.ColoredFormatter"
+        format: "%(log_color)s%(asctime)s - %(name)s - %(levelname)-7s - %(message)s%(reset)s"
+        datefmt: "%Y/%m/%d %H:%M:%S"
+        reset: True
+        log_colors:
+            # cfr. https://github.com/borntyping/python-colorlog
+            # supported colors: blue|cyan|green|yellow|red|purple|white|black
+            # supported prefixes:  bold_ | bg_
+            # <LOGLEVEL>: <foreground-color>,<background-color>
+            DEBUG: bold_cyan
+            INFO: bold_green
+            WARNING: bold_yellow
+            ERROR: bold_red
+            CRITICAL: bold_purple
+
     console_bw: # simple back & white
         format: "%(asctime)s - %(name)s - %(levelname)-7s - %(message)s"
         datefmt: "%Y/%m/%d %H:%M:%S"
@@ -118,21 +134,21 @@ handlers:
         filters:
             - regex-filter
 
-    #email:
-    #    class: logging.handlers.SMTPHandler
-    #    formatter: email
-    #    level: WARNING
-    #    mailhost: !!python/tuple ["localhost", 25]
-    #    timeout: 3.0
-    #    subject: !env SMTP_SUBJECT, "my subject"
-    #    fromaddr:  !env SMTP_FROM, "app@example.com"
-    #    toaddrs: !env SMTP_TO, "xxx@example.com|yyy@example.com"
-    #    #toaddrs:
-    #    #    - "xxx@example.com"
-    #    #    - "yyy@example.com"
-    #    # toaddrs: "xxx@example.com"
-    #    filters:
-    #        - regex-filter
+    email:
+        class: logging.handlers.SMTPHandler
+        formatter: email
+        level: WARNING
+        mailhost: !!python/tuple ["localhost", 25]
+        timeout: 3.0
+        subject: !env SMTP_SUBJECT, "my subject"
+        fromaddr: !env SMTP_FROM, "app@example.com"
+        toaddrs: !env SMTP_TO, "xxx@example.com|yyy@example.com"
+        #toaddrs:
+        #    - "xxx@example.com"
+        #    - "yyy@example.com"
+        # toaddrs: "xxx@example.com"
+        filters:
+            - regex-filter
 
     #logstash_udp:  &logstash
     #    class: logstash.LogstashHandler
@@ -176,7 +192,7 @@ handlers:
         class: logging.handlers.RotatingFileHandler
         level: DEBUG
         formatter: generic
-        filename: 10-debug.log
+        filename: debug.log
         maxBytes: 104857600 # 100 MB = 100*1024*1024
         backupCount: 10
         encoding: utf8
@@ -185,17 +201,17 @@ handlers:
 
     info_file:
         <<: *default
-        filename: 20info.log
+        filename: info.log
         level: INFO
 
     warning_file:
         <<: *default
-        filename: 30-warning.log
+        filename: warning.log
         level: WARNING
 
     error_file:
         <<: *default
-        filename: 40-errors.log
+        filename: errors.log
         level: ERROR
 
 loggers:
@@ -205,6 +221,13 @@ loggers:
     # -) Propagation goes bottom-up, not top-to-bottom.
     #    propagate defaults to True.
     #    Therefore propagate is not applicable for the root-logger.
+
+    flask_appbuilder:
+        # propagate: True
+        level: !env LOGLEVEL_FLASKAPPBUILDER, DEBUG
+
+    impala:
+        level: !env LOGLEVEL_IMPALA, DEBUG
 
     libranet_logging:
         level: !env LOGLEVEL_libranet_logging, DEBUG
@@ -221,10 +244,12 @@ loggers:
     urllib3:
         level: !env LOGLEVEL_URLLIB3, DEBUG
 
+    werkzeug:
+        level: !env LOGLEVEL_WERKZEUG, DEBUG
+
 root:
     # You can get the root-logger via logging.getLogger(),
     # Normally you don't need to use the root-logger directly, since all other loggers descend from it.
     # The dedicated "<loglevel>_file"-handlers are automatically removed if the root-loglevel is set higher.
     level: !env LOGLEVEL_ROOT, NOTSET
-
     handlers: !env LOG_HANDLERS, "console|debug_file|info_file|warning_file|error_file"

@@ -15,10 +15,11 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
-   cli/index.rst
    filters/index.rst
    logconfig/index.rst
    loglevel/index.rst
+   utils/index.rst
+   validate/index.rst
    yaml/index.rst
 
 
@@ -31,11 +32,11 @@ Functions
 
 .. autoapisummary::
 
-   libranet_logging.print_loggers
-   libranet_logging.print_tree
    libranet_logging.initialize
    libranet_logging.output_logging_tree
    libranet_logging.create_loglevel
+   libranet_logging.print_loggers
+   libranet_logging.print_tree
 
 
 
@@ -45,6 +46,8 @@ Attributes
 .. autoapisummary::
 
    libranet_logging.__version__
+   libranet_logging.__copyright__
+   libranet_logging.__license__
    libranet_logging.create_loglevel_trace
 
 
@@ -53,19 +56,17 @@ Attributes
 
 
 
-.. py:function:: print_loggers()
-
-   Returns:
-
-
-
-.. py:function:: print_tree()
-
-   Returns:
+.. py:data:: __copyright__
+   :value: 'Copyright 2015 - 2023 Libranet'
 
 
 
-.. py:function:: initialize(path='', logdir='', capture_warnings=True, silent=False, use_print=False, variables=None)
+.. py:data:: __license__
+   :value: 'MIT License'
+
+
+
+.. py:function:: initialize(path='', logdir='', capture_warnings = True, silent = False, use_print = False, variables=None)
 
    Initialize logging configuration with a yaml-file.
 
@@ -122,6 +123,18 @@ Attributes
 
 
 .. py:data:: create_loglevel_trace
+
+
+
+.. py:function:: print_loggers()
+
+   Returns:
+
+
+
+.. py:function:: print_tree()
+
+   Returns:
 
 
 

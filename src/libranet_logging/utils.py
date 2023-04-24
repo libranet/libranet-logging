@@ -82,22 +82,6 @@ def is_interactive_shell():
     return False
 
 
-# def ensure_dir(directory):
-#     """
-
-#     Args:
-#         directory:
-
-#     Returns:
-
-#     """
-#     if os.path.exists(directory):
-#         if not os.path.isdir(directory):
-#             raise OSError(f"The provided path to the log-directory exist but is not a directory: {directory}")
-#     else:
-#         os.makedirs(directory)
-
-
 def ensure_dir(required_dir: tp.Union[pl.Path, str]) -> None:
     """Ensure the required directory exists."""
 
