@@ -4,7 +4,6 @@ import logging
 import logging.config
 import operator
 import os
-import pathlib as pl
 
 import logging_tree
 
@@ -17,7 +16,7 @@ log = logging.getLogger(__name__)
 
 def get_sorted_lognames() -> list[str]:
     """
-    Returns a sorted list of logging level names.
+    Returns a sorted list of loglevel-names.
     """
     loglevels = logging._levelToName.items()  # pylint: disable=protected-access
     sorted_loglevels = sorted(loglevels, key=operator.itemgetter(0))
@@ -119,14 +118,15 @@ def output_logging_tree(use_print=False):
         log.debug(configured_log_description)
 
 
-def get_default_logging_yaml() -> pl.Path:
+def get_default_logging_yaml() -> importlib.abc.Traversable:
     """
     Returns the path to the default logging configuration file.
 
     Returns:
-        A `Path` object representing the path to the default logging configuration file.
+        A Traversable `Path` object representing the path to the default logging configuration file.
     """
-    return pl.Path(importlib.resources.files("libranet_logging") / "etc/logging.yaml")
+    package_root = importlib.resources.files("libranet_logging")
+    return package_root / "etc" / "logging.yaml"
 
 
 def initialize(
@@ -151,7 +151,7 @@ def initialize(
 
     """
     variables = variables or {}
-    path = str(path) or os.environ.get("PYTHON_LOG_CONFIG", "") or str(get_default_logging_yaml())
+    path = str(path) or os.getenv("LOGGING_YML_FILE") or os.getenv("LOG_CONFIG") or str(get_default_logging_yaml())
 
     config = read_yaml(path, variables=variables)
     config = convert_filenames(config, logdir=logdir)

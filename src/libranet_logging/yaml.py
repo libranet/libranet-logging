@@ -11,11 +11,12 @@ please see:
 """
 import json
 import os
+import typing as tp
 
 import yaml
 
 
-def constructor_env(loader, node):
+def constructor_env(loader: tp.Any, node: tp.Any) -> tp.Union[str, tp.List[str]]:
     """YAML-Constructor to load a value from a env-variable.
 
     Usage in yml:
@@ -42,12 +43,12 @@ def constructor_env(loader, node):
     sep = os.getenv("LIBRANET_LOGGING_SEPARATOR", "|")
     if value and sep in value:
         # env-variable as array, convert to list
-        value = [x.strip() for x in value.split(sep) if x]
+        value = [val.strip() for val in value.split(sep) if val]  # type: ignore[assignment]
 
     return value
 
 
-def add_constructor():
+def add_constructor() -> None:
     """Register the !env-constructor with pyyaml."""
     # breakpoint()
     # loader = yaml.loader.FullLoader
@@ -67,36 +68,33 @@ def add_constructor():
     #    print(exc)
 
 
-def read_yaml(path, variables=None):
+def read_yaml(yaml_path: str, variables: tp.Optional[tp.Dict[str, str]] = None) -> tp.Dict:
     """Read the yaml-file.
 
     Returns: dict
     """
-    path = str(path)
     if not variables:
         variables = {}
 
-    if not os.path.exists(path):
-        msg = f"\nThe configfile {path} does not exist.\n"
+    if not os.path.exists(yaml_path):
+        msg = f"\nThe configfile {yaml_path} does not exist.\n"
         raise SystemExit(msg)
 
     loader = yaml.loader.FullLoader
     loader.add_constructor("!env", constructor_env)
-
     # yaml.add_constructor("!env", constructor_env, yaml.SafeLoader)
 
-    with open(path, "r", encoding="utf-8") as stream:
+    with open(yaml_path, "r", encoding="utf-8") as stream:
         try:
             data = stream.read()
             if variables:
-                data = data.format(**variables)  # TODO, will break on %s() in yml
+                data = data.format(**variables)  # TODO, will break on %s() in yaml
 
-            data_yml = yaml.load(data, Loader=loader)
+            data_yaml = yaml.load(data, Loader=loader)
+            # data_yaml = yaml.safe_load(data)
 
-            # data_yml = yaml.safe_load(data)
-
-        except Exception as exc:
-            msg = f"Failed to load yml-file {path}: {exc}"
+        except yaml.YAMLError as exc:
+            msg = f"Failed to load yml-file {yaml_path}: {exc}"
             raise SystemExit(msg)
 
-    return data_yml
+    return data_yaml
