@@ -118,22 +118,48 @@ repos:
         language: system
         types: [python]
 
+  #- repo: local
+  #  hooks:
+  #    - id: check-case-conflict
+  #      name: Check for files with names that would conflict on a case-insensitive filesystem like MacOS HFS+ or Windows FAT.
+  #      entry: poetry run check-case-conflict
+  #      language: system
+  #      types: [text]
+
   - repo: local
     hooks:
       - id: check-toml
-        name: Check toml
+        name: Check TOML-syntax
         entry: poetry run check-toml
         language: system
         types: [toml]
 
-  # - repo: local
-  #   hooks:
-  #     - id: check-yaml
-  #       name: Check yaml
-  #       entry: poetry run check-yaml
-  #       language: system
-  #       types: [yaml]
-  #       exclude: "etc/logging.yaml, tests/logging_*.yaml"
+  - repo: local
+    hooks:
+      - id: check-xml
+        name: Check XML-syntax
+        entry: poetry run check-xml
+        language: system
+        types: [xml]
+
+  #- repo: local
+  #  hooks:
+  #    - id: check-yaml
+  #      name: Check YAML-syntax
+  #      entry: poetry run check-yaml
+  #      language: system
+  #      types: [yaml]
+  #      # exclude: "logging.yaml, tests/logging_*.yaml"
+  #      exclude: "tests/logging_invalid_yaml.yaml"
+
+  - repo: local
+    hooks:
+      - id: check-merge-conflict
+        name: Check for files that contain merge conflict strings
+        entry: poetry run check-merge-conflict
+        language: system
+        types: [text]
+        args: ["--assume-in-merge"] # Allow running this hook when there is no ongoing merge operation
 
   - repo: local
     hooks:
@@ -168,3 +194,12 @@ repos:
         language: system
         stages: [commit, push, manual]
         types: [text]
+
+  #- repo: local
+  #  hooks:
+  #    - id: name-tests-test
+  #      name: name-tests-test
+  #      entry: poetry run name-tests-test
+  #      language: system
+  #      types: [python]
+  #      args: ["tests --pytest-test-first"]

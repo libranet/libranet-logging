@@ -10,7 +10,8 @@ handlers:
     email:
         class: logging.handlers.SMTPHandler
         level: WARNING
-        mailhost: !!python/tuple ["localhost", 25]
+        # mailhost: !!python/tuple ["localhost", 25]
+        mailhost: [localhost, 25]
         timeout: 3.0
         subject: !env SMTP_SUBJECT # we don't set a default value here for testing
         fromaddr: !env SMTP_FROM, "app@example.com"

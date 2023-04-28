@@ -48,10 +48,23 @@ def constructor_env(loader, node):
 
 
 def add_constructor():
+    """Register the !env-constructor with pyyaml."""
     # breakpoint()
     # loader = yaml.loader.FullLoader
     # loader.add_constructor("!env", constructor_env)
+    # print("add_constructor")
     yaml.add_constructor("!env", constructor_env, yaml.SafeLoader)
+
+    # try:
+    #    import ruamel.yaml
+    #    import ruamel.yaml.constructor
+
+    #    # ruamel.yaml.constructor.add_constructor("!env", constructor_env, Loader=ruamel.yaml.YAML(typ="safe"))
+    #    ruamel.yaml.add_constructor("!env", constructor_env)
+    #    # print("succes")
+
+    # except ImportError as exc:
+    #    print(exc)
 
 
 def read_yaml(path, variables=None):

@@ -135,6 +135,22 @@ colorlog = ">=6.7"
 logging-tree = ">=1.9"
 pyyaml = ">=6.0"
 
+lxml = { version = ">=4.9", optional = true, allow-prereleases = false } # mypy coverage-report
+# sitecustomize-entrypoints = { version = ">=1.1", optional = true, allow-prereleases = true }
+
+
+[tool.poetry.extras]
+lxml = ["lxml"]
+# sitecustomize = ["sitecustomize-entrypoints"]
+
+# [project.optional-dependencies]
+# all = [
+# "sitecustomize-entrypoints = >=1.1"
+# ]
+
+
+# [tool.poetry.group.dev]
+# optional = true
 [tool.poetry.group.dev.dependencies]
 absolufy-imports = ">=0.3"
 black = { version = ">=22.1", allow-prereleases = true }
@@ -148,10 +164,14 @@ pre-commit-hooks = ">=4.4"
 pylint = ">=2.15"
 ruff = ">=0.0"
 
+# [tool.poetry.group.dist]
+# optional = true
 [tool.poetry.group.dist.dependencies]
 pyroma = ">=4.2"
 twine = ">=4.0.2"
 
+# [tool.poetry.group.docs]
+# optional = true
 [tool.poetry.group.docs.dependencies]
 autoapi = ">=2.0"
 recommonmark = ">=0.7"
@@ -159,18 +179,26 @@ Sphinx = ">=4.4"
 sphinx-autoapi = ">=1.8"
 sphinx-rtd-theme = ">=1.0"
 
+# [tool.poetry.group.ipython]
+# optional = true
 [tool.poetry.group.ipython.dependencies]
 ipdb = ">=0.13"
 ipython = ">=8.4"
 
+# [tool.poetry.group.profiling]
+# optional = true
 [tool.poetry.group.profiling.dependencies]
 importtime-waterfall = ">=1.0"
 tuna = ">=0.5"
 
+# [tool.poetry.group.security]
+# optional = true
 [tool.poetry.group.security.dependencies]
 bandit = { extras = ["toml"], version = ">=1.7" }
 safety = ">=2.3"
 
+# [tool.poetry.group.testing]
+# optional = true
 [tool.poetry.group.testing.dependencies]
 pytest = ">=7.0"
 pytest-clarity = "^1.0"
@@ -179,10 +207,20 @@ pytest-cov = ">=4.0"
 pytest-mock = ">=3.10"
 pytest-xdist = ">=3.2"
 
+# [tool.poetry.group.typing]
+# optional = true
 [tool.poetry.group.typing.dependencies]
 lxml = { version = ">=4.9", optional = true, allow-prereleases = false } # mypy coverage-report
 mypy = ">=0.9"
 types-pyyaml = ">=6.0"
+
+
+[tool.poetry.plugins."sitecustomize"]
+# https://python-poetry.org/docs/pyproject/#plugins
+# https://github.com/Darsstar/sitecustomize-entrypoints/blob/main/src/sitecustomize/__init__.py
+# libranet_logging_pyyaml = "libranet_logging.yaml:add_constructor"
+# libranet_logging_ruaml = "libranet_logging.yaml:add_constructor"
+
 
 [tool.poetry.urls]
 Issues = "https://github.com/libranet/libranet-logging/issues"

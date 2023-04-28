@@ -5,6 +5,11 @@ poetry-install:
 	poetry install
 
 
+.PHONY: poetry-install-only main ## run poetry install --only main
+poetry-install-only main:
+	poetry install --only main
+
+
 .PHONY: poetry-install-no-dev ## run poetry install without dev-dependencies
 poetry-install-no-dev:
 	poetry install --no-dev

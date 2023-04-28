@@ -138,7 +138,8 @@ handlers:
         class: logging.handlers.SMTPHandler
         formatter: email
         level: WARNING
-        mailhost: !!python/tuple ["localhost", 25]
+        # mailhost: !!python/tuple ["localhost", 25]
+        mailhost: [localhost, 25]
         timeout: 3.0
         subject: !env SMTP_SUBJECT, "my subject"
         fromaddr: !env SMTP_FROM, "app@example.com"
@@ -230,7 +231,7 @@ loggers:
         level: !env LOGLEVEL_IMPALA, DEBUG
 
     libranet_logging:
-        level: !env LOGLEVEL_libranet_logging, DEBUG
+        level: !env LOGLEVEL_LIBRANET_LOGGING, DEBUG
 
     requests:
         level: !env LOGLEVEL_REQUESTS, DEBUG
