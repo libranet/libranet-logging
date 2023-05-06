@@ -4,6 +4,9 @@ Changelog
 1.4 (unreleased)
 ----------------
 
+- Remove upperbound-pin in ``pyproject.toml``.
+  Do not falsely claim incompatibility with python 4.0.
+
 - Change yaml-extension from ``*.yml`` to ``*.yaml``.
 
 - Renamed environment-variable ``PYTHON_LOG_CONFIG`` into ````.
