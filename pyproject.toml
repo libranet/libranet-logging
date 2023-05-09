@@ -224,17 +224,17 @@ types-pyyaml = ">=6.0"
 
 [tool.poetry.urls]
 Issues = "https://github.com/libranet/libranet-logging/issues"
-Changelog = "https://github.com/libranet/libranet-logging/releases"
+Changelog = "https://github.com/libranet/libranet-logging/blob/main/docs/changes.rsts"
 
 
-[tool.poetry-dynamic-versioning]
-# cfr https://github.com/mtkennerly/poetry-dynamic-versioning
-enable = true
-vcs = "git"
-style = "semver"
+# [tool.poetry-dynamic-versioning]
+# # cfr https://github.com/mtkennerly/poetry-dynamic-versioning
+# enable = true
+# vcs = "git"
+# style = "semver"
 
-[tool.poetry-dynamic-versioning.substitution]
-files = ["src/*/__init__.py", "src/*/__version__.py", "docs/changes.rst"]
+# [tool.poetry-dynamic-versioning.substitution]
+# files = ["src/*/__init__.py", "src/*/__version__.py", "docs/changes.rst"]
 
 
 [tool.pylint.design]
