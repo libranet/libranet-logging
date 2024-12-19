@@ -35,7 +35,7 @@ skips = ["*/test_*.py"]
 [tool.black]
 line-length = 120
 include = '\.py$'          # regex -> single-quotes
-target_version = ["py311"]
+target-version = ["py311"]
 
 
 [tool.coverage.html]
@@ -133,15 +133,11 @@ packages = [{ include = "libranet_logging", from = "src" }]
 python = ">=3.8.0"
 cerberus = ">=1.3"
 colorlog = ">=6.7"
+jsonschema = ">=4.23"
 logging-tree = ">=1.9"
 pyyaml = ">=6.0"
 
-lxml = { version = ">=4.9", optional = true, allow-prereleases = false } # mypy coverage-report
-# sitecustomize-entrypoints = { version = ">=1.1", optional = true, allow-prereleases = true }
 
-
-[tool.poetry.extras]
-lxml = ["lxml"]
 # sitecustomize = ["sitecustomize-entrypoints"]
 
 # [project.optional-dependencies]
@@ -281,7 +277,7 @@ log_cli = false # enable to show log-output
 log_cli_level = "NOTSET"
 filterwarnings = [
     # "ignore:Coverage disabled via --no-cov switch!:pytest.PytestWarning:pytest_cov.plugin",
-    "ignore::DeprecationWarning", # use of pgk_rescources in cerberus
+    # "ignore::DeprecationWarning", # use of pgk_rescources in cerberus
 ]
 
 

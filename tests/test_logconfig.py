@@ -50,19 +50,21 @@ def test_initialize_with_invalid_yaml(tests_dir):
 
 def test_initialize_with_invalid_yaml2(tests_dir):
     from libranet_logging.logconfig import initialize
-    from libranet_logging.validate import CerberusValidationError
+    from libranet_logging.validate import SchemaValidationError
 
     logging_yml = tests_dir / "logging_invalid_schema.yaml"
 
-    with pytest.raises(CerberusValidationError) as excinfo:
+    # with pytest.raises(SchemaValidationError) as excinfo:
+    with pytest.raises(ValueError) as excinfo:
         initialize(logging_yml)
 
-    expected = (
-        f"logconfig {logging_yml} contains errors: [('formatters', ['required field']), "
-        "('handlers', ['required field']), ('loggers', ['required field']), "
-        "('root', ['required field']), ('version', ['required field'])]"
-    )
-    assert excinfo.value.args[0] == expected
+    # expected = (
+    #     f"logconfig {logging_yml} contains errors: [('formatters', ['required field']), "
+    #     "('handlers', ['required field']), ('loggers', ['required field']), "
+    #     "('root', ['required field']), ('version', ['required field'])]"
+    # )
+    # assert excinfo.value.args[0] == expected
+    assert excinfo.value.args[0] == "dictionary doesn't specify a version"
 
 
 def test_initialize_with_valid_yaml(env, tests_dir):

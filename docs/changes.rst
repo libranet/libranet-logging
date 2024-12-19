@@ -4,6 +4,8 @@ Changelog
 1.4 (unreleased)
 ----------------
 
+- Replace ``cerberus`` with ``jsonschema``.
+
 - Remove upperbound-pin in ``pyproject.toml``.
   Do not falsely claim incompatibility with python 4.0.
 

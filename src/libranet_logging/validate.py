@@ -4,9 +4,9 @@ import logging
 import logging.config
 
 try:
-    import cerberus
+    import jsonschema
 except ImportError:  # pragma: no cover
-    cerberus = None
+    jsonschema = None
 
 log = logging.getLogger(__name__)
 
@@ -65,18 +65,17 @@ logging_schema = {
 }
 
 
-class CerberusValidationError(Exception):
-    """CerberusValidationError-class."""
+class SchemaValidationError(Exception):
+    """SchemaValidationError-class."""
 
 
 def validate_logging(log_config, path):
     """Validate the syntax of a logging.yml-file."""
-    if not cerberus:  # pragma: no cover
+    if not jsonschema:  # pragma: no cover
         return
 
-    validator = cerberus.Validator(logging_schema, allow_unknown=True)
-    success = validator.validate(log_config)
-    if not success and validator.errors:
-        sorted_errors = sorted(validator.errors.items())
-        msg = f"logconfig {path} contains errors: {sorted_errors}"
-        raise CerberusValidationError(msg)
+    try:
+        jsonschema.validate(instance=log_config, schema=logging_schema)
+    except jsonschema.exceptions.ValidationError as exc:
+        msg = f"logconfig {path} contains errors: {exc.message}"
+        raise SchemaValidationError(msg)
