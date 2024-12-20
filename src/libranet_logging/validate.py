@@ -10,58 +10,92 @@ except ImportError:  # pragma: no cover
 
 log = logging.getLogger(__name__)
 
-
 logging_schema = {
-    "logdir": {"type": "string", "required": False},
-    "version": {"type": "integer", "required": True},
-    "disable_existing_loggers": {"type": "integer"},
-    "formatters": {
-        "type": "dict",
-        "required": True,
-        "valuesrules": {
-            "type": "dict",
-            "schema": {
-                "format": {"type": "string", "required": False},
-                "datefmt": {"type": "string", "required": False},
+    "type": "object",
+    "properties": {
+        # "logdir": {"type": "string", "required": False},  # custom field
+        "version": {"type": "integer", "enum": [1]},  # Version is required and must be 1
+        "disable_existing_loggers": {"type": "boolean"},
+        "formatters": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "format": {"type": "string"},
+                    "datefmt": {"type": "string"},
+                },
+                "required": ["format"],  # At least "format" is required in formatters
+            },
+        },
+        "handlers": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "class": {"type": "string"},  # Required
+                    "level": {"type": "string"},
+                    "formatter": {"type": "string"},
+                    "stream": {"type": "string"},
+                    "filename": {"type": "string"},
+                    "encoding": {"type": "string"},
+                    "mode": {"type": "string"},
+                    "maxBytes": {"type": "integer"},
+                    "backupCount": {"type": "integer"},
+                    "delay": {"type": "boolean"},
+                    "filters": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                    },
+                },
+                "required": ["class"],  # "class" is always required for handlers
+            },
+        },
+        "loggers": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "level": {"type": "string"},
+                    "handlers": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                    },
+                    "propagate": {"type": "boolean"},
+                    "filters": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                    },
+                },
+            },
+        },
+        "root": {
+            "type": "object",
+            "properties": {
+                "level": {"type": "string"},
+                "handlers": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+                "filters": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+            },
+            "required": ["level", "handlers"],  # "level" and "handlers" are required for root
+        },
+        "filters": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "args": {"type": "object"},
+                },
             },
         },
     },
-    "handlers": {
-        "type": "dict",
-        "required": True,
-        "valuesrules": {
-            "type": "dict",
-            "schema": {
-                "class": {"type": "string", "required": True},
-                # logstash-handler sets the correct formatter via code
-                # therefore the formatter-key in not required in logging.yml
-                "formatter": {"type": "string", "required": False},
-                "level": {"type": "string", "required": True},
-                "encoding": {"type": "string", "required": False},
-                "filename": {"type": "string", "required": False},
-                "stream": {"type": "string", "required": False},
-                "maxBytes": {"type": "integer", "required": False},
-                "backupCount": {"type": "integer", "required": False},
-            },
-        },
-    },
-    "loggers": {
-        "type": "dict",
-        "required": True,
-        "valuesrules": {
-            "type": "dict",
-            "schema": {
-                "handlers": {"type": "list", "required": False},
-                "level": {"type": "string", "required": False},
-                "propagate": {"type": "boolean", "required": False},
-            },
-        },
-    },
-    "root": {
-        "type": "dict",
-        "required": True,
-        "schema": {"handlers": {"type": "list", "required": True}, "level": {"type": "string"}},
-    },
+    "required": ["version"],  # "version" is always required
+    "additionalProperties": True,  # Disallow unknown properties at the top level
 }
 
 

@@ -54,17 +54,12 @@ def test_initialize_with_invalid_yaml2(tests_dir):
 
     logging_yml = tests_dir / "logging_invalid_schema.yaml"
 
-    # with pytest.raises(SchemaValidationError) as excinfo:
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(SchemaValidationError) as excinfo:
         initialize(logging_yml)
 
-    # expected = (
-    #     f"logconfig {logging_yml} contains errors: [('formatters', ['required field']), "
-    #     "('handlers', ['required field']), ('loggers', ['required field']), "
-    #     "('root', ['required field']), ('version', ['required field'])]"
-    # )
-    # assert excinfo.value.args[0] == expected
-    assert excinfo.value.args[0] == "dictionary doesn't specify a version"
+    expected = f"logconfig {logging_yml} contains errors: 'version' is a required property"
+    assert excinfo.value.args[0] == expected
+
 
 
 def test_initialize_with_valid_yaml(env, tests_dir):
