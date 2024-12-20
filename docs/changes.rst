@@ -1,7 +1,8 @@
 Changelog
 =========
 
-1.4 (unreleased)
+
+1.4 (2024-12-20)
 ----------------
 
 - Replace ``cerberus`` with ``jsonschema``.

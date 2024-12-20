@@ -95,7 +95,7 @@ envdir = "var/cache/nox"
 
 [tool.poetry]
 name = "libranet-logging"
-version = "0.0.0"
+version = "1.4"
 license = "MIT"
 description = "Easy-to-use logging-configuration using a logging.yml-file"
 readme = "docs/readme.md"
@@ -121,6 +121,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
     "Topic :: Software Development :: Libraries",
