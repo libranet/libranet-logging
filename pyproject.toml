@@ -138,14 +138,6 @@ logging-tree = ">=1.9"
 pyyaml = ">=6.0"
 
 
-# sitecustomize = ["sitecustomize-entrypoints"]
-
-# [project.optional-dependencies]
-# all = [
-# "sitecustomize-entrypoints = >=1.1"
-# ]
-
-
 # [tool.poetry.group.dev]
 # optional = true
 [tool.poetry.group.dev.dependencies]
