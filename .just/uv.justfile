@@ -40,7 +40,6 @@ upgrade-uv:
 	uv self update
 
 
-
 # install the project and all dependencies from the default groups
 [group: 'uv']
 uv-sync:
