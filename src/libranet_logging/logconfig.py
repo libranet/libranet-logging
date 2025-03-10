@@ -118,7 +118,7 @@ def output_logging_tree(use_print=False):
         log.debug(configured_log_description)
 
 
-def get_default_logging_yaml() -> importlib.abc.Traversable:
+def get_default_logging_yaml() -> importlib.resources.abc.Traversable:
     """
     Returns the path to the default logging configuration file.
 
@@ -128,6 +128,16 @@ def get_default_logging_yaml() -> importlib.abc.Traversable:
     package_root = importlib.resources.files("libranet_logging")
     return package_root / "etc" / "logging.yaml"
 
+
+def get_dict_config(path: str = "", logdir="",variables=None,) -> dict:
+    """Return a fully resolved logging configuration as a dictionary."""
+    variables = variables or {}
+    path = str(path) or os.getenv("LOGGING_YML_FILE") or os.getenv("LOG_CONFIG") or str(get_default_logging_yaml())
+
+    config = read_yaml(path, variables=variables)
+    config = convert_filenames(config, logdir=logdir)
+    config = remove_lower_level_handlers(config)
+    return config
 
 def initialize(
     path="",
@@ -150,12 +160,14 @@ def initialize(
     Returns:
 
     """
-    variables = variables or {}
-    path = str(path) or os.getenv("LOGGING_YML_FILE") or os.getenv("LOG_CONFIG") or str(get_default_logging_yaml())
+    # variables = variables or {}
+    # path = str(path) or os.getenv("LOGGING_YML_FILE") or os.getenv("LOG_CONFIG") or str(get_default_logging_yaml())
 
-    config = read_yaml(path, variables=variables)
-    config = convert_filenames(config, logdir=logdir)
-    config = remove_lower_level_handlers(config)
+    # config = read_yaml(path, variables=variables)
+    # config = convert_filenames(config, logdir=logdir)
+    # config = remove_lower_level_handlers(config)
+
+    config = get_dict_config(path=path, logdir=logdir, variables=variables)
     validate_logging(config, path)
 
     logging.config.dictConfig(config)

@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+1.5 (2025-03-10)
+----------------
+
+- Refactor into stand-alone function ``libranet_logging.logconfig.get_dict_config``.
+  This function is be passed to gunicorn's ``logconfig_dict``.
+
+
 1.4 (2024-12-20)
 ----------------
 
