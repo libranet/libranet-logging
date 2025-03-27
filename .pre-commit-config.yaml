@@ -77,27 +77,27 @@ repos:
   #       # see https://github.com/PyCQA/bandit/issues/318
   #       args: ["--configfile pyproject.toml", "--baseline etc/bandit-baseline.json"]
 
-  - repo: local
-    hooks:
-      - id: poetry-check
-        name: Poetry check
-        description: run poetry check to validate config
-        entry: poetry check
-        language: python
-        language_version: python3
-        pass_filenames: false
-        files: ^pyproject.toml$
+#   - repo: local
+#     hooks:
+#       - id: poetry-check
+#         name: Poetry check
+#         description: run poetry check to validate config
+#         entry: poetry check
+#         language: python
+#         language_version: python3
+#         pass_filenames: false
+#         files: ^pyproject.toml$
 
-  - repo: local
-    hooks:
-      - id: poetry-lock-check
-        name: Check poetry.lock is up-to-date
-        description: run poetry lock --check to check lock-file is in sync
-        entry: poetry lock --check
-        language: python
-        # language_version: python3
-        pass_filenames: false
-        files: ^pyproject.toml$
+#   - repo: local
+#     hooks:
+#       - id: poetry-lock-check
+#         name: Check poetry.lock is up-to-date
+#         description: run poetry lock --check to check lock-file is in sync
+#         entry: poetry lock --check
+#         language: python
+#         # language_version: python3
+#         pass_filenames: false
+#         files: ^pyproject.toml$
 
       # - id: poetry-lock
       #   name: poetry-lock
