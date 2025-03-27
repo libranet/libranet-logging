@@ -1,4 +1,5 @@
-"""libranet_logging.utils"""
+"""libranet_logging.utils."""
+
 import logging
 import os
 import pathlib as pl
@@ -28,21 +29,13 @@ import logging_tree
 
 
 def print_tree() -> None:
-    """
-
-    Returns:
-
-    """
+    """Returns:"""
     msg = logging_tree.format.build_description()
     print(msg)
 
 
 def print_loggers() -> None:
-    """
-
-    Returns:
-
-    """
+    """Returns:"""
     _, _, children = logging_tree.nodes.tree()
     for node in children:
         name, logger, _ = node
@@ -84,7 +77,6 @@ def is_interactive_shell():
 
 def ensure_dir(required_dir: tp.Union[pl.Path, str]) -> None:
     """Ensure the required directory exists."""
-
     # convert to Path
     if isinstance(required_dir, str):
         required_dir = pl.Path(required_dir)

@@ -1,7 +1,9 @@
-# flake8: noqa: E402 (module level import not at top of file)
 # pylint: disable=unused-import
 # pylint: disable=wrong-import-position
 # pylint: disable=invalid-name
+# ruff: noqa: INP001 (implicit part of namespace package)
+# ruff: noqa: E402 (module level import not at top of file)
+# ruff: noqa: F401 (unused import)
 """IPython startup-file, outside of PYTHONPATH.
 
 Files in this startup-folder will be run in lexicographical order,
@@ -14,11 +16,12 @@ so you can control the execution order of files with a prefix, e.g.::
 return-statements are not allowed.
 
 """
+
 print(f"\nRunning {__file__}")
 
 import logging
-import os  # noqa
-import sys  # noqa
+import os
+import sys
 
 import libranet_logging
 
