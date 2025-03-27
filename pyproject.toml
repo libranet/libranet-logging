@@ -94,7 +94,7 @@ envdir = "var/cache/nox"
 
 [project]
 name = "libranet-logging"
-version = "1.5.2"
+version = "1.5.3"
 requires-python = ">=3.8"
 description = "Easy-to-use logging-configuration using a logging.yml-file"
 readme = "docs/readme.md"
