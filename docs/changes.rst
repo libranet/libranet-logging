@@ -2,8 +2,14 @@ Changelog
 =========
 
 
+1.5.2 (2025-03-27)
+------------------
+
+- Make ``libranet_logging.logconfig.get_dict_config`` available as a toplevel function.
+
+
 1.5.1 (2025-03-27)
-----------------
+------------------
 
 - Fix ``AttributeError: module 'importlib.resources' has no attribute 'abc'``
   on Python 3.8/3.9/3.10 by using backported ``importlib-resources``-package.

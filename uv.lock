@@ -630,7 +630,7 @@ version = "7.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "zipp", version = "3.20.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
-    { name = "zipp", version = "3.21.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
+    { name = "zipp", version = "3.21.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9' and python_full_version < '3.11'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/76/72/33d1bb4be61f1327d3cd76fc41e2d001a6b748a0648d944c646643f123fe/importlib_metadata-7.2.1.tar.gz", hash = "sha256:509ecb2ab77071db5137c655e24ceb3eee66e7bbc6574165d0d114d9fc4bbe68", size = 52834 }
 wheels = [
@@ -917,7 +917,7 @@ wheels = [
 
 [[package]]
 name = "libranet-logging"
-version = "1.5.1"
+version = "1.5.2"
 source = { editable = "." }
 dependencies = [
     { name = "colorlog" },
