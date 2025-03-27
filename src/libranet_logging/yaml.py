@@ -9,6 +9,7 @@ please see:
   - https://github.com/yaml/pyyaml/wiki/PyYAML-yaml.load(input)-Deprecation
 
 """
+
 from __future__ import annotations  # make | in typing work in Python 3.8
 
 import json
@@ -69,7 +70,7 @@ def add_constructor() -> None:
     #    print(exc)
 
 
-def read_yaml(yaml_path: str, variables: tp.Dict[str, str]|None = None) -> tp.Dict:
+def read_yaml(yaml_path: str, variables: tp.Dict[str, str] | None = None) -> tp.Dict:
     """Read the yaml-file.
 
     Returns: dict

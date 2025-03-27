@@ -4,6 +4,7 @@ Fetch metadata from the package's pyproject.toml.
 The package must be properly installed in order the metadata to be available.
 
 """
+
 from __future__ import annotations  # make | in typing work in Python 3.8
 
 import importlib.metadata

@@ -1,6 +1,7 @@
 # pylint: disable=import-outside-toplevel
 # pylint: disable=missing-function-docstring
 """Testing of module libranet_logging.logconfig."""
+
 import logging
 
 import pytest
@@ -59,7 +60,6 @@ def test_initialize_with_invalid_yaml2(tests_dir):
 
     expected = f"logconfig {logging_yml} contains errors: 'version' is a required property"
     assert excinfo.value.args[0] == expected
-
 
 
 def test_initialize_with_valid_yaml(env, tests_dir):

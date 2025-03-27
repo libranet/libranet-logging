@@ -1,4 +1,5 @@
 """libranet_logging.utils."""
+
 import logging
 import os
 import pathlib as pl
@@ -28,17 +29,13 @@ import logging_tree
 
 
 def print_tree() -> None:
-    """Returns:
-
-    """
+    """Returns:"""
     msg = logging_tree.format.build_description()
     print(msg)
 
 
 def print_loggers() -> None:
-    """Returns:
-
-    """
+    """Returns:"""
     _, _, children = logging_tree.nodes.tree()
     for node in children:
         name, logger, _ = node

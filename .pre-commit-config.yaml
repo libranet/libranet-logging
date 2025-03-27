@@ -2,204 +2,99 @@
 # References:
 #   - Official docs: https://pre-commit.com
 #   - for more hooks: https://pre-commit.com/hooks.html
+#   - https://github.com/pre-commit/pre-commit-hooks
 #
-# To avoid duplication, we try to configure the tools in pyproject.toml as much as possible.
-# we call the executables via "poetry run <executable>"
+# Notes:
+#   - To avoid duplication, we try to configure the tools in pyproject.toml as much as possible.
+#   -  The setting "language: system" is used to run commands that are already available on your system,
+#      and pre-commit does not need to create or manage an isolated environment.
 #
 # Usage:
-#   > pre-commit install
-#   > pre-commit install hooks  -f
-#   > pre-commit autoupdate
-#   > pre-commit run --all-files
+#   > bin/pre-commit install
+#   > bin/pre-commit install hooks  -f
+#   > bin/pre-commit autoupdate
+#   > bin/pre-commit run --all-files
+
 
 repos:
-#   - repo: local
-#     hooks:
-#       # docs: https://black.readthedocs.io/en/stable/integrations/source_version_control.html
-#       - id: black
-#         name: Black
-#         entry: poetry run black
-#         args: ["--config=pyproject.toml"]
-#         # "--check",  # don't write the files back, just return the status.
-#         language: system # use executable found on path
-#         require_serial: true
-#         types: [python] # check only specific filetypes
-
-  # docs: https://flake8.pycqa.org/en/latest/user/using-hooks.html
-  # - repo: local
-  #   hooks:
-  #     - id: flake8
-  #       name: Flake8
-  #       entry: poetry run flake8
-  #       language: system
-  #       require_serial: true
-  #       types: [python]
-
-  # docs: https://pycqa.github.io/isort/docs/configuration/pre-commit.html
-#   - repo: local
-#     hooks:
-#       - id: isort
-#         name: Isort
-#         entry: poetry run isort
-#         args: ["--settings-path=pyproject.toml"] # "--filter-files"
-#         language: system
-#         require_serial: true
-#         types: [python] # pyi? cython?
 
   - repo: local
     hooks:
-      - id: ruff
-        name: Ruff
-        entry: uv run ruff
-        args: [--fix, --show-fixes]
-        # args: [--fix, --exit-non-zero-on-fix]
+
+      - id: ruff-format
+        name: ruff-format
+        entry: ruff format
         language: system
         types: [python]
-        # exclude: ^.venv/
 
-  # - repo: local
-  #   hooks:
-  #     - id: mypy
-  #       name: Mypy
-  #       entry: poetry run mypy
-  #       language: system
-  #       types: [python]
-  #       # files: ^src/$
-  #       verbose: true # print the number of files as a sanity-check
+    #   - id: ruff-check
+    #     name: ruff-check
+    #     entry: ruff check
+    #     # args: [--fix]  # Optional: Automatically fix issues
+    #     language: system
+    #     types: [python]
 
-  # - repo: local
-  #   hooks:
-  #     - id: bandit
-  #       name: Bandit
-  #       entry: poetry run bandit
-  #       language: system
-  #       types: [python]
-  #       # see https://github.com/PyCQA/bandit/issues/318
-  #       args: ["--configfile pyproject.toml", "--baseline etc/bandit-baseline.json"]
-
-#   - repo: local
-#     hooks:
-#       - id: poetry-check
-#         name: Poetry check
-#         description: run poetry check to validate config
-#         entry: poetry check
-#         language: python
-#         language_version: python3
-#         pass_filenames: false
-#         files: ^pyproject.toml$
-
-#   - repo: local
-#     hooks:
-#       - id: poetry-lock-check
-#         name: Check poetry.lock is up-to-date
-#         description: run poetry lock --check to check lock-file is in sync
-#         entry: poetry lock --check
-#         language: python
-#         # language_version: python3
-#         pass_filenames: false
-#         files: ^pyproject.toml$
-
-      # - id: poetry-lock
-      #   name: poetry-lock
-      #   description: run poetry lock to update lock file
-      #   entry: poetry lock
-      #   language: python
-      #   language_version: python3
-      #   pass_filenames: false
-
-  # The following are all pre-commit-hooks
-  # docs: https://github.com/pre-commit/pre-commit-hooks
-
-  - repo: local
-    hooks:
+      # The following are all pre-commit-hooks
+      # docs: https://github.com/pre-commit/pre-commit-hooks
       - id: debug-statements
-        name: Check debug statements
-        entry: uv run debug-statement-hook
+        name: check-debug-statements
+        entry: debug-statement-hook
         language: system
         types: [python]
 
-  #- repo: local
-  #  hooks:
-  #    - id: check-case-conflict
-  #      name: Check for files with names that would conflict on a case-insensitive filesystem like MacOS HFS+ or Windows FAT.
-  #      entry: uv run check-case-conflict
-  #      language: system
-  #      types: [text]
+      - id: lower-case-only
+        name: lower case only
+        entry: filenames must be lower-case or lower_case only
+        language: fail
+        files: '[^a-z0-9._/-]'
+        exclude: '^(\.github/.*|etc/ipython/.*/README)$'
 
-  - repo: local
-    hooks:
+      - id: check-case-conflict
+        name: Check for case conflicts.
+        description: Check for files with names that would conflict on a case-insensitive filesystem.
+        entry: check-case-conflict
+        language: system
+
       - id: check-toml
-        name: Check TOML-syntax
-        entry: uv run check-toml
+        name: check toml syntax
+        entry: check-toml
         language: system
         types: [toml]
 
-  - repo: local
-    hooks:
-      - id: check-xml
-        name: Check XML-syntax
-        entry: uv run check-xml
+      - id: check-yaml
+        name: check yaml syntax
+        entry: check-yaml
         language: system
-        types: [xml]
+        types: [yaml]
+        exclude: '^etc/logging\.yaml$)^src/libranet_logging/etc/logging\.yaml$|^tests/.*\.yaml$'
 
-  #- repo: local
-  #  hooks:
-  #    - id: check-yaml
-  #      name: Check YAML-syntax
-  #      entry: poetry run check-yaml
-  #      language: system
-  #      types: [yaml]
-  #      # exclude: "logging.yaml, tests/logging_*.yaml"
-  #      exclude: "tests/logging_invalid_yaml.yaml"
-
-  - repo: local
-    hooks:
-      - id: check-merge-conflict
-        name: Check for files that contain merge conflict strings
-        entry: uv run check-merge-conflict
-        language: system
-        types: [text]
-        args: ["--assume-in-merge"] # Allow running this hook when there is no ongoing merge operation
-
-  - repo: local
-    hooks:
       - id: end-of-file-fixer
-        name: Fix end of file
-        entry: uv run end-of-file-fixer
-        language: system
-        stages: [commit, push, manual]
-        types: [python] # text too broad?
-
-  - repo: local
-    hooks:
-      - id: fix-encoding-pragma
-        name: Fix encoding pragma
-        entry: uv run fix-encoding-pragma --remove
+        name: fix end of files (EOF)
+        entry: end-of-file-fixer
         language: system
         types: [python]
 
-  - repo: local
-    hooks:
-      - id: mixed-line-ending
-        name: Fix mixed line-endings
-        entry: uv run mixed-line-ending
-        language: system
-        types: [text]
-
-  - repo: local
-    hooks:
       - id: trailing-whitespace
-        name: Fix trailing whitespace
-        entry: uv run trailing-whitespace-fixer
+        name: fix trailing whitespace (EOL)
+        entry: trailing-whitespace-fixer
         language: system
-        stages: [commit, push, manual]
         types: [text]
 
-  #- repo: local
-  #  hooks:
-  #    - id: name-tests-test
-  #      name: name-tests-test
-  #      entry: uv run name-tests-test
-  #      language: system
-  #      types: [python]
-  #      args: ["tests --pytest-test-first"]
+      - id: mixed-line-ending
+        name: fix mixed line ending (CLRF/LF)
+        entry: mixed-line-ending
+        language: system
+        types: [text]
+
+      - id: fix-encoding-pragma
+        name: fix encoding pragma
+        entry: fix-encoding-pragma --remove
+        language: system
+        types: [python]
+
+      - id: uv-lock-check
+        name: uv-lock-check
+        description: check uv.lock is in sync
+        entry: uv lock --check
+        language: system
+        pass_filenames: false

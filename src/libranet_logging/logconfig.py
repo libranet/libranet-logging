@@ -1,4 +1,5 @@
 """libranet_logging.logconfig."""
+
 from __future__ import annotations  # make | in typing work in Python 3.8
 
 import logging
@@ -32,7 +33,7 @@ def get_sorted_lognames() -> list[str]:
     return sorted_names
 
 
-def remove_console(config: dict, disable_console:bool=False) -> dict:
+def remove_console(config: dict, disable_console: bool = False) -> dict:
     """Args:
         config:
         disable_console:
@@ -125,7 +126,6 @@ def get_default_logging_yaml() -> importlib_resources.abc.Traversable:
     return package_root / "etc" / "logging.yaml"
 
 
-
 def get_default_logging_yaml() -> importlib_resources.abc.Traversable:
     """Returns the path to the default logging configuration file.
 
@@ -137,7 +137,7 @@ def get_default_logging_yaml() -> importlib_resources.abc.Traversable:
     return package_root / "etc" / "logging.yaml"
 
 
-def get_dict_config(path: str = "", logdir="",variables=None) -> dict:
+def get_dict_config(path: str = "", logdir="", variables=None) -> dict:
     """Return a fully resolved logging configuration as a dictionary."""
     variables = variables or {}
     path = str(path) or os.getenv("LOGGING_YML_FILE") or os.getenv("LOG_CONFIG") or str(get_default_logging_yaml())
@@ -146,6 +146,7 @@ def get_dict_config(path: str = "", logdir="",variables=None) -> dict:
     config = convert_filenames(config, logdir=logdir)
     config = remove_lower_level_handlers(config)
     return config
+
 
 def initialize(
     path="",

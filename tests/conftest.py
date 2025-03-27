@@ -7,6 +7,7 @@ For more information about conftest.py, please see:
  - https://pytest-flask.readthedocs.io/en/latest/tutorial.html
 
 """
+
 import os
 import pathlib as pl
 
