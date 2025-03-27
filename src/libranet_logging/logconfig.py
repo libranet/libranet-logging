@@ -13,11 +13,11 @@ from libranet_logging.utils import ensure_dir, is_interactive_shell, strtobool
 from libranet_logging.validate import validate_logging
 from libranet_logging.yaml import read_yaml
 
-if sys.version_info < (3, 9):
-    # For Python 3.8 and earlier, use the backport
+if sys.version_info < (3, 11):
+    # For Python 3.10 and earlier, use the backport
     import importlib_resources
 else:
-    # For Python 3.9 and later, use the standard library
+    # For Python 3.11 and later, use the standard library
     import importlib.resources as importlib_resources
 
 

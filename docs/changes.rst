@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+1.5.1 (2025-03-27)
+----------------
+
+- Fix ``AttributeError: module 'importlib.resources' has no attribute 'abc'``
+  on Python 3.8/3.9/3.10 by using backported ``importlib-resources``-package.
+
+
 1.5 (2025-03-10)
 ----------------
 
