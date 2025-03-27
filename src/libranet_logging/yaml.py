@@ -9,6 +9,8 @@ please see:
   - https://github.com/yaml/pyyaml/wiki/PyYAML-yaml.load(input)-Deprecation
 
 """
+from __future__ import annotations  # make | in typing work in Python 3.8
+
 import json
 import os
 import typing as tp
@@ -23,7 +25,6 @@ def constructor_env(loader: tp.Any, node: tp.Any) -> tp.Union[str, tp.List[str]]
         > !env ENVVAR_NAME, DEFAULTVALUE_IF_ENVVAR_NOT_SET
 
     """
-
     if "," not in node.value:
         # no default-value provided
         envname = loader.construct_scalar(node)
@@ -68,7 +69,7 @@ def add_constructor() -> None:
     #    print(exc)
 
 
-def read_yaml(yaml_path: str, variables: tp.Optional[tp.Dict[str, str]] = None) -> tp.Dict:
+def read_yaml(yaml_path: str, variables: tp.Dict[str, str]|None = None) -> tp.Dict:
     """Read the yaml-file.
 
     Returns: dict
@@ -84,7 +85,7 @@ def read_yaml(yaml_path: str, variables: tp.Optional[tp.Dict[str, str]] = None) 
     loader.add_constructor("!env", constructor_env)
     # yaml.add_constructor("!env", constructor_env, yaml.SafeLoader)
 
-    with open(yaml_path, "r", encoding="utf-8") as stream:
+    with open(yaml_path, encoding="utf-8") as stream:
         try:
             data = stream.read()
             if variables:

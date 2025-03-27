@@ -40,7 +40,6 @@ class RegexFilter(logging.Filter):  # pylint: disable=too-few-public-methods
     def filter(self, record) -> bool:
         """Determine if the specified record is to be logged.
 
-
         Args:
             record:
 

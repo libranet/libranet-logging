@@ -5,7 +5,6 @@ env:
     # https://github.com/pytest-dev/pytest/issues/7443
     # https://github.com/actions/runner/issues/241
     PY_COLORS: 1
-    POETRY_VERSION: "1.8.4"
 
 on:
     pull_request:
@@ -30,58 +29,58 @@ concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
     cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+
 jobs:
+    # see https://docs.astral.sh/uv/guides/integration/github/
     python-tests:
-        name: Python tests
-        runs-on: ${{ matrix.os }}
+        name: python
+        runs-on: ubuntu-latest
         timeout-minutes: 10
 
         strategy:
             fail-fast: false
             matrix:
-                os:
-                    - ubuntu-latest
                 python-version:
-                    - "3.8"
-                    - "3.9"
-                    - "3.10"
-                    - "3.11"
-                    - "3.12-dev"
-                include:
-                    # Run 3.12 tests with relaxed constraints
-                    - python-version: "3.12-dev"
-                      relax: true # ??
+                - "3.8"
+                - "3.9"
+                - "3.10"
+                - "3.11"
+                - "3.12"
+                - "3.13"
 
         steps:
-            - uses: actions/checkout@v3
-              with:
-                  persist-credentials: false
-                  fetch-depth: 0
+        - uses: actions/checkout@v4
+          with:
+              persist-credentials: false
+              fetch-depth: 0
 
-            - name: Set up Python ${{ matrix.python-version }}
-              uses: actions/setup-python@v4
-              with:
-                  python-version: ${{ matrix.python-version }}
+        - name: Remove sitecustomize.py
+          run: |
+            sudo rm -f /usr/lib/python3.*/sitecustomize.py
+            sudo rm -f /etc/python3.*/sitecustomize.py
 
-            - name: Set up Poetry
-              run: |
-                  pip install poetry==${{ env.POETRY_VERSION }}
+        - name: Install the latest version of uv
+          uses: astral-sh/setup-uv@v5
+          with:
+              python-version: ${{ matrix.python-version }}
+              version: "latest"
 
-            - name: Install packages
-              run: |
-                  make install
+        - name: Set up Python ${{ matrix.python-version }}
+          run: uv python install ${{ matrix.python-version }}
 
-            - name: Run tests with coverage
-              run: |
-                  make pytest-cov
+        - name: Install the project
+          run: uv sync --all-groups
 
-            # https://github.com/codecov/codecov-action
-            - name: "Upload coverage to Codecov"
-              uses: codecov/codecov-action@v3
-              with:
-                  fail_ci_if_error: false # optional (default = false)
-                  # files: var/html/coverage/coverage.xml, # optional
-                  directory: var/html/coverage
-                  flags: unittests # optional
-                  token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-                  verbose: true # optional (default = false)
+        - name: Run tests
+          run: uv run pytest tests --cov=src --cov-report html --cov-report xml --cov-report term -v
+
+        # https://github.com/codecov/codecov-action
+        - name: "Upload coverage to Codecov"
+          uses: codecov/codecov-action@v5
+          with:
+              fail_ci_if_error: false  # optional (default = false)
+              # files: var/coverage/coverage.xml  # optional
+              directory: var/coverage
+              flags: unittests # optional
+              token: ${{ secrets.CODECOV_TOKEN }}  # not required for public repos
+              verbose: true  # optional (default = false)

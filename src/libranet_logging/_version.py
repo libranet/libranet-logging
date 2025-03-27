@@ -1,15 +1,18 @@
-"""
-libranet_logging._version.
+"""libranet_logging._version.
 
 Fetch metadata from the package's pyproject.toml.
 The package must be properly installed in order the metadata to be available.
 
 """
+from __future__ import annotations  # make | in typing work in Python 3.8
 
 import importlib.metadata
 
 try:
     pkginfo: dict = importlib.metadata.metadata(__package__).json
+except AttributeError:
+    pkginfo: dict = dict(importlib.metadata.metadata(__package__))
+
 except importlib.metadata.PackageNotFoundError:  # pragma: no cover
     # fallback if this package is not properly installed
     pkginfo = {}
