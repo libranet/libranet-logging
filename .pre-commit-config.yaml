@@ -66,7 +66,7 @@ repos:
         entry: check-yaml
         language: system
         types: [yaml]
-        exclude: '^etc/logging\.yaml$)^src/libranet_logging/etc/logging\.yaml$|^tests/.*\.yaml$'
+        exclude: '^etc/logging\.yaml$|^src/libranet_logging/etc/logging\.yaml$|^tests/.*\.yaml$'
 
       - id: end-of-file-fixer
         name: fix end of files (EOF)
