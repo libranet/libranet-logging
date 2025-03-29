@@ -9,48 +9,19 @@ import datetime as dt
 import os
 
 
-def read(*names: str) -> str:
-    r"""Return the contents of a file.
+def get_version() -> str:
+    """Read the version from pyproject.toml."""
+    pyproject_toml_path = pl.Path(__file__).parent / "../pyproject.toml"
+    with pyproject_toml_path.open() as file:
+        lines = file.readlines()
 
-    Default encoding is UTF-8, unless specified otherwise.
-
-    Args:
-        - names (list, required): list of strings, parts of the path.
-          the path might be relative to the current file.
-
-    Returns:
-      String containing the content of the file.
-
-    Examples:
-        >>> read('docs/readme.rst')
-            u'Overview\n--------\n...'
-
-        >>> read('docs', 'readme.rst')
-            u'Overview\n--------\n...'
-
-    """
-    filename = os.path.join(os.path.dirname(__file__), *names)
-    with open(filename, encoding="utf8") as stream:
-        return stream.read()
-
-
-def read_version(*names: str) -> str:
-    """Read the version of the package.
-
-    Returns:
-          str: the version-number of the package.
-
-    Examples:
-        > read_version("../src/<package_name>/__init__.py")
-            "0.1dev0"
-
-    """
-    lines = read(*names).split("\n")
     for line in lines:
-        if line.startswith("__version__ = "):
+        if line.startswith("version = "):
             version_ = line.split("=")[1].strip().strip('"').strip("'")
             return version_
-    raise RuntimeError("Unable to find version string.")
+
+    msg = "Unable to find version string."
+    raise RuntimeError(msg)
 
 
 autoclass_content = "both"
@@ -74,18 +45,18 @@ project_prefix = ""
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
-    "sphinx.ext.napoleon",
     "autoapi.extension",
     "autoapi.sphinx",
-    # "sphinx_click",
+    "recommonmark",
     "sphinx.ext.coverage",
     "sphinx.ext.doctest",
     "sphinx.ext.ifconfig",
     "sphinx.ext.mathjax",
+    "sphinx.ext.napoleon",
     "sphinx.ext.todo",
+    # "sphinx_click",
     # "sphinx_paramlinks",
     "sphinx_rtd_theme",
-    "recommonmark",
 ]
 
 
@@ -121,8 +92,7 @@ copyright = f"{current_year}, {owner}"  # pylint: disable=redefined-builtin
 # built documents.
 
 # The short X.Y version.
-# version = '0.1'
-version = read_version(f"../src/{module_name}/__init__.py")
+version = get_version()
 
 # The full version, including alpha/beta/rc tags.
 release = version
