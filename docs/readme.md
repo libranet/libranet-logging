@@ -14,7 +14,13 @@ Install via pip:
 > bin/pip install libranet-logging
 ```
 
-Or add to your poetry-based project:
+via uv
+
+```bash
+> uv add libranet-logging
+```
+
+via poetry:
 
 ```bash
 > poetry add libranet-logging

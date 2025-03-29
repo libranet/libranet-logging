@@ -28,7 +28,7 @@ You just can pip-install these packages:
 .. note::
 
     Since the tests are importing the code of libranet_logging, this package needs be installed in a virtualenv,
-    together with all its dependencies. See :doc:`installation`.
+    together with all its dependencies. See :doc:`readme`.
 
 
 Re-usable test-fixtures

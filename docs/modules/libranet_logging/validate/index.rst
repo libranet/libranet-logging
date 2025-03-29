@@ -1,5 +1,5 @@
-:py:mod:`libranet_logging.validate`
-===================================
+libranet_logging.validate
+=========================
 
 .. py:module:: libranet_logging.validate
 
@@ -9,46 +9,51 @@
 
 
 
-Module Contents
----------------
+Attributes
+----------
+
+.. autoapisummary::
+
+   libranet_logging.validate.jsonschema
+   libranet_logging.validate.log
+   libranet_logging.validate.logging_schema
+
+
+Exceptions
+----------
+
+.. autoapisummary::
+
+   libranet_logging.validate.SchemaValidationError
 
 
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
    libranet_logging.validate.validate_logging
 
 
+Module Contents
+---------------
 
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   libranet_logging.validate.cerberus
-   libranet_logging.validate.log
-   libranet_logging.validate.logging_schema
-
-
-.. py:data:: cerberus
-
+.. py:data:: jsonschema
+   :value: None
 
 
 .. py:data:: log
-
+   :value: None
 
 
 .. py:data:: logging_schema
 
-
-
-.. py:exception:: CerberusValidationError
+.. py:exception:: SchemaValidationError
 
    Bases: :py:obj:`Exception`
 
-   CerberusValidationError-class.
+
+   SchemaValidationError-class.
 
 
 .. py:function:: validate_logging(log_config, path)

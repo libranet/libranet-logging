@@ -1,20 +1,16 @@
-:py:mod:`libranet_logging.utils`
-================================
+libranet_logging.utils
+======================
 
 .. py:module:: libranet_logging.utils
 
 .. autoapi-nested-parse::
 
-   libranet_logging.utils
+   libranet_logging.utils.
 
-
-
-Module Contents
----------------
 
 
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -25,17 +21,17 @@ Functions
    libranet_logging.utils.ensure_dir
 
 
+Module Contents
+---------------
 
 .. py:function:: print_tree()
 
    Returns:
 
 
-
 .. py:function:: print_loggers()
 
    Returns:
-
 
 
 .. py:function:: strtobool(val)

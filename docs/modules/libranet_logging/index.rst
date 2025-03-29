@@ -1,37 +1,46 @@
-:py:mod:`libranet_logging`
-==========================
+libranet_logging
+================
 
 .. py:module:: libranet_logging
 
 .. autoapi-nested-parse::
 
-   libranet_logging.__init__
+   libranet_logging.__init__.
 
 
 
 Submodules
 ----------
+
 .. toctree::
-   :titlesonly:
    :maxdepth: 1
 
-   filters/index.rst
-   logconfig/index.rst
-   loglevel/index.rst
-   utils/index.rst
-   validate/index.rst
-   yaml/index.rst
+   /modules/libranet_logging/_version/index
+   /modules/libranet_logging/filters/index
+   /modules/libranet_logging/logconfig/index
+   /modules/libranet_logging/loglevel/index
+   /modules/libranet_logging/utils/index
+   /modules/libranet_logging/validate/index
+   /modules/libranet_logging/yaml/index
 
 
-Package Contents
-----------------
-
-
-Functions
-~~~~~~~~~
+Attributes
+----------
 
 .. autoapisummary::
 
+   libranet_logging.__copyright__
+   libranet_logging.__license__
+   libranet_logging.__version__
+   libranet_logging.create_loglevel_trace
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   libranet_logging.get_dict_config
    libranet_logging.initialize
    libranet_logging.output_logging_tree
    libranet_logging.create_loglevel
@@ -39,31 +48,21 @@ Functions
    libranet_logging.print_tree
 
 
-
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   libranet_logging.__version__
-   libranet_logging.__copyright__
-   libranet_logging.__license__
-   libranet_logging.create_loglevel_trace
-
-
-.. py:data:: __version__
-   :value: '1.4.dev0'
-
-
+Package Contents
+----------------
 
 .. py:data:: __copyright__
-   :value: 'Copyright 2015 - 2023 Libranet'
-
-
+   :type:  str | list[str]
 
 .. py:data:: __license__
-   :value: 'MIT License'
+   :type:  str | list[str]
 
+.. py:data:: __version__
+   :type:  str | list[str]
+
+.. py:function:: get_dict_config(path = '', logdir='', variables=None)
+
+   Return a fully resolved logging configuration as a dictionary.
 
 
 .. py:function:: initialize(path='', logdir='', capture_warnings = True, silent = False, use_print = False, variables=None)
@@ -124,17 +123,13 @@ Attributes
 
 .. py:data:: create_loglevel_trace
 
-
-
 .. py:function:: print_loggers()
 
    Returns:
 
 
-
 .. py:function:: print_tree()
 
    Returns:
-
 
 

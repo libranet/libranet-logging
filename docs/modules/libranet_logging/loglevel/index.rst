@@ -1,5 +1,5 @@
-:py:mod:`libranet_logging.loglevel`
-===================================
+libranet_logging.loglevel
+=========================
 
 .. py:module:: libranet_logging.loglevel
 
@@ -9,26 +9,24 @@
 
 
 
-Module Contents
----------------
+Attributes
+----------
+
+.. autoapisummary::
+
+   libranet_logging.loglevel.create_loglevel_trace
 
 
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
    libranet_logging.loglevel.create_loglevel
 
 
-
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   libranet_logging.loglevel.create_loglevel_trace
-
+Module Contents
+---------------
 
 .. py:function:: create_loglevel(level_name='', level_num=0)
 
@@ -64,6 +62,4 @@ Attributes
 
 
 .. py:data:: create_loglevel_trace
-
-
 

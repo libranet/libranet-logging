@@ -1,96 +1,61 @@
-# uv / venv
+# See ../justfile
 
 
-# create .env from .env.template
-[group: 'venv']
-install-dotenv:
-    @ echo -e "Copying .env.template to .env" ;
-    @ cp -n .env.template .env ;
-    @ echo "Please review the config in .env"
-    @ echo -e "Replacing string __CWD__ -> $(pwd)"
-    @ sed -i 's@__CWD__@'"$(pwd)"'@' .env
-
-
-# run all install-steps to full initial installation
-[group: 'venv']
-install: create-dirs uv-sync symlink-venv-dirs install-dotenv
-
-
-# create files and directories
-[group: 'venv']
-create-dirs:
-	@ mkdir -p var/cache
-	@ mkdir -p var/docs/
-	@ mkdir -p var/log/sphinx
-	@ mkdir -p var/tmp
-
-
-# symlink venv-dirs to make bin/python work
-[group: 'venv']
-symlink-venv-dirs:
-	@ ln -sf .venv/bin
-	@ ln -sf .venv/lib
-	@ ln -sf .venv/lib64
-	@ ln -sf .venv/pyvenv.cfg
-
-
-# upgrade uv itself
+# create the virtualenv
 [group: 'uv']
-upgrade-uv:
-	uv self update
+uv-create-venv:
+	uv venv --seed
 
 
-# install the project and all dependencies from the default groups
+# run uv install to create the virtualenv
+[group: 'uv']
+uv-pip-install:
+	uv pip install --editable .
+
+
+# run uv install without dev-dependencies
+[group: 'uv']
+uv-pip-install-no-dev:
+	uv pip install --no-dev
+
+
+# run uv sync
 [group: 'uv']
 uv-sync:
-    unset VIRTUAL_ENV
-    uv sync
-
-alias uv-install := uv-sync
-alias create-venv := uv-sync
+	uv sync
 
 
-# update uv.lock
+# run uv lock
 [group: 'uv']
 uv-lock:
-    unset VIRTUAL_ENV
-    uv lock
+	uv lock
 
 
-# build the python-package
+# run uv lock --upgrade
+[group: 'uv']
+uv-lock-upgrade:
+	uv lock --upgrade
+
+
+# run uv build to create the python-package
 [group: 'uv']
 uv-build:
-    unset VIRTUAL_ENV
-    uv build
+	uv build --out-dir var/dist
 
 
-# publish the python-package
+# publish the package to pypi
 [group: 'uv']
 uv-publish:
-    uv publish dist/* --verbose
+	uv publish var/dist/*
 
 
-# publish the python-package
+# generate a requirements.txt-file
 [group: 'uv']
-uv-build-and-publish: uv-sync uv-build uv-publish
-
-
-# export uv-defined requirements to a pip-installable requirements-file
-[group: 'uv']
-[unix]
 uv-export-requirements:
-    @ uv export --format requirements-txt --no-hashes --output-file etc/pip/requirements.txt
-    @ cat etc/pip/requirements-header.txt <(echo "") etc/pip/requirements.txt > etc/pip/temp.txt && mv etc/pip/temp.txt etc/pip/requirements.txt
-    @ echo -e "Updated etc/pip/requirements.txt"
+	uv export --format requirements-txt --output-file requirements.txt
 
 
-# export uv-defined requirements to a pip-installable requirements-file
+# generate a requirements.txt-file for readthedocs
 [group: 'uv']
-[windows]
-uv-export-requirements:
-    Get-Content etc/pip/requirements-header.txt | Set-Content etc/pip/temp.txt
-    Add-Content -Path etc/pip/temp.txt -Value ""
-    Get-Content etc/pip/requirements.txt | Add-Content -Path etc/pip/temp.txt
-    Move-Item etc/pip/temp.txt etc/pip/requirements.txt -Force
-
-alias uv-export := uv-export-requirements
+uv-export-requirements-docs:
+	uv export --format requirements-txt --only-group docs --no-hashes --output-file docs/requirements.txt

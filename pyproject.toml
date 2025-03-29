@@ -146,7 +146,7 @@ dev = [
     "toml-cli >=0.7.0",
 ]
 docs = [
-    "autoapi >= 2.0.1",
+    "autoapi>=2.0.1",
     "recommonmark >= 0.7.1",
     "sphinx >= 7.1.2",
     "sphinx-autoapi >= 3.3.3",

@@ -37,7 +37,7 @@ Changelog
 
 - Change yaml-extension from ``*.yml`` to ``*.yaml``.
 
-- Renamed environment-variable ``PYTHON_LOG_CONFIG`` into ````.
+- Renamed environment-variable ``PYTHON_LOG_CONFIG`` into ``LOGGING_YML_FILE``.
 
 - Renamed environment-variable ``PYTHON_LOG_DIR`` into ``LOG_DIR``.
 

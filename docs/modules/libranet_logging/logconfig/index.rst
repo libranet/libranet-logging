@@ -1,5 +1,5 @@
-:py:mod:`libranet_logging.logconfig`
-====================================
+libranet_logging.logconfig
+==========================
 
 .. py:module:: libranet_logging.logconfig
 
@@ -9,12 +9,16 @@
 
 
 
-Module Contents
----------------
+Attributes
+----------
+
+.. autoapisummary::
+
+   libranet_logging.logconfig.log
 
 
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -23,29 +27,25 @@ Functions
    libranet_logging.logconfig.convert_filenames
    libranet_logging.logconfig.remove_lower_level_handlers
    libranet_logging.logconfig.output_logging_tree
-   libranet_logging.logconfig.get_default_logging_yml
+   libranet_logging.logconfig.get_default_logging_yaml
+   libranet_logging.logconfig.get_default_logging_yaml
+   libranet_logging.logconfig.get_dict_config
    libranet_logging.logconfig.initialize
 
 
-
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   libranet_logging.logconfig.log
-
+Module Contents
+---------------
 
 .. py:data:: log
-
+   :value: None
 
 
 .. py:function:: get_sorted_lognames()
 
-   Returns a sorted list of logging level names.
+   Return a sorted list of loglevel-names.
 
 
-.. py:function:: remove_console(config, disable_console=False)
+.. py:function:: remove_console(config, disable_console = False)
 
    :param config:
    :param disable_console:
@@ -56,13 +56,7 @@ Attributes
 
 .. py:function:: convert_filenames(config, logdir='')
 
-   "Convert relative filenames in the handlers to absolute paths.
-
-   :param config:
-   :param logdir:
-
-   Returns:
-
+   Convert relative filenames in the handlers to absolute paths.
 
 
 .. py:function:: remove_lower_level_handlers(config)
@@ -88,11 +82,23 @@ Attributes
 
 
 
-.. py:function:: get_default_logging_yml()
+.. py:function:: get_default_logging_yaml()
 
    Returns the path to the default logging configuration file.
 
-   :returns: A `Path` object representing the path to the default logging configuration file.
+   :returns: A Traversable `Path` object representing the path to the default logging configuration file.
+
+
+.. py:function:: get_default_logging_yaml()
+
+   Returns the path to the default logging configuration file.
+
+   :returns: A Traversable `Path` object representing the path to the default logging configuration file.
+
+
+.. py:function:: get_dict_config(path = '', logdir='', variables=None)
+
+   Return a fully resolved logging configuration as a dictionary.
 
 
 .. py:function:: initialize(path='', logdir='', capture_warnings = True, silent = False, use_print = False, variables=None)

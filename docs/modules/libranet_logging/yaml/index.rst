@@ -1,5 +1,5 @@
-:py:mod:`libranet_logging.yaml`
-===============================
+libranet_logging.yaml
+=====================
 
 .. py:module:: libranet_logging.yaml
 
@@ -17,12 +17,8 @@
 
 
 
-Module Contents
----------------
-
-
 Functions
-~~~~~~~~~
+---------
 
 .. autoapisummary::
 
@@ -31,6 +27,8 @@ Functions
    libranet_logging.yaml.read_yaml
 
 
+Module Contents
+---------------
 
 .. py:function:: constructor_env(loader, node)
 
@@ -43,8 +41,10 @@ Functions
 
 .. py:function:: add_constructor()
 
+   Register the !env-constructor with pyyaml.
 
-.. py:function:: read_yaml(path, variables=None)
+
+.. py:function:: read_yaml(yaml_path, variables = None)
 
    Read the yaml-file.
 

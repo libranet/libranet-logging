@@ -34,8 +34,18 @@ set fallback
 set windows-shell := ["pwsh.exe", "-NoLogo", "-Command"]
 set shell := ["bash", "-uc"]
 
+import '.just/dotenv.justfile'
 import '.just/git.justfile'
+import '.just/ipython.justfile'
+import '.just/pre-commit.justfile'
+import '.just/mypy.justfile'
+import '.just/pylint.justfile'
+import '.just/pyroma.justfile'
+import '.just/pytest.justfile'
+import '.just/readthedocs.justfile'
 import '.just/release.justfile'
+import '.just/ruff.justfile'
+import '.just/sphinx.justfile'
 import '.just/sshx.justfile'
 import '.just/uv.justfile'
 

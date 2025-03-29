@@ -5,7 +5,6 @@ libranet-logging
     :maxdepth: 2
 
     readme
-    usage
     unittesting
     changes
     security
