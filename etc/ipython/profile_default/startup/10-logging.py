@@ -25,12 +25,10 @@ import sys
 
 import libranet_logging
 
-# import demo_flask.cfg as cfg
-
 # setup the logging according to etc/logging.yml
 libranet_logging.initialize()
 
-log = logging.getLogger("ipython-startup")  # name = "__main__"
+log = logging.getLogger("ipython-startup")  
 
 log.debug("debug-message")
 log.info("info-message")
