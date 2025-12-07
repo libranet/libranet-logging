@@ -249,6 +249,7 @@ target-version = "py38"
 select = ["ALL"]
 ignore = [
     "B011",   # Do not call assert False since python -O removes these calls.
+    "COM812", # Trailing comma missing - conflicts with ruff format
     "ERA001", # Found commented-out code
     "G004",   # Logging statement uses f-string
     "RET504", # Unnecessary assignment before `return` statement

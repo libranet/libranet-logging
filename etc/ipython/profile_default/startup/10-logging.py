@@ -28,7 +28,7 @@ import libranet_logging
 # setup the logging according to etc/logging.yml
 libranet_logging.initialize()
 
-log = logging.getLogger("ipython-startup")  
+log = logging.getLogger("ipython-startup")
 
 log.debug("debug-message")
 log.info("info-message")
