@@ -59,3 +59,13 @@ uv-export-requirements:
 [group: 'uv']
 uv-export-requirements-docs:
 	uv export --format requirements-txt --only-group docs --no-hashes --output-file docs/requirements.txt
+
+
+[group: 'uv']
+uv-tree args="":
+    uv tree {{args}}
+
+
+[group: 'uv']
+uv-package-deps name="":
+    uv tree --invert --package {{name}}

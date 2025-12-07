@@ -86,11 +86,11 @@ repos:
         language: system
         types: [text]
 
-      - id: fix-encoding-pragma
-        name: fix encoding pragma
-        entry: fix-encoding-pragma --remove
-        language: system
-        types: [python]
+    #   - id: fix-encoding-pragma
+    #     name: fix encoding pragma
+    #     entry: fix-encoding-pragma --remove
+    #     language: system
+    #     types: [python]
 
       - id: uv-lock-check
         name: uv-lock-check
