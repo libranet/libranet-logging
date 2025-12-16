@@ -1,10 +1,15 @@
 Changelog
 =========
 
+
 1.5.3 (YYYY-MM-DD)
 ------------------
 
- - No changes yet.
+- Replace dependabot-auto-merge action with
+  `fastify/github-action-merge-dependabot` action.
+
+- Pin github-actions to a specific commit-hash to avoid supply-chain attacks.
+  Cfr. https://securitylab.github.com/resources/github-actions-preventing-pwn-requests
 
 
 1.5.2 (2025-03-27)

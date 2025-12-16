@@ -1,3 +1,22 @@
+# Testing - Github Actions
+#
+# Security references:
+#  - https://securitylab.github.com/resources/github-actions-preventing-pwn-requests
+#  - https://securitylab.github.com/resources/github-actions-untrusted-input
+#  - https://securitylab.github.com/resources/github-actions-building-blocks
+#  - https://securitylab.github.com/resources/github-actions-new-patterns-and-mitigations
+#
+# Used actions:
+#   - actions/checkout
+#     repo: https://github.com/actions/checkout
+#     releases: https://github.com/actions/checkout/tags
+#
+#   - astral-sh/setup-uv: set up uv environment
+#     repo: https://github.com/astral-sh/setup-uv
+#     releases: https://github.com/astral-sh/setup-uv/tags
+#     docs: https://docs.astral.sh/uv/guides/integration/github/
+
+
 name: Testing
 
 env:
@@ -47,9 +66,13 @@ jobs:
                 - "3.11"
                 - "3.12"
                 - "3.13"
+                - "3.14"
 
         steps:
-        - uses: actions/checkout@v4
+
+        # repo: https://github.com/actions/checkout
+        # releases: https://github.com/actions/checkout/tags
+        - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1 released on 02-12-2025
           with:
               persist-credentials: false
               fetch-depth: 0
@@ -59,8 +82,11 @@ jobs:
             sudo rm -f /usr/lib/python3.*/sitecustomize.py
             sudo rm -f /etc/python3.*/sitecustomize.py
 
+        # repo: https://github.com/astral-sh/setup-uv
+        # releases: https://github.com/astral-sh/setup-uv/tags
+        # docs: https://docs.astral.sh/uv/guides/integration/github
         - name: Install the latest version of uv
-          uses: astral-sh/setup-uv@v5
+          uses: astral-sh/setup-uv@681c641aba71e4a1c380be3ab5e12ad51f415867  # v7.1.6 released on 13-12-2025
           with:
               python-version: ${{ matrix.python-version }}
               version: "latest"
@@ -74,9 +100,10 @@ jobs:
         - name: Run tests
           run: uv run pytest tests --cov=src --cov-report html --cov-report xml --cov-report term -v
 
-        # https://github.com/codecov/codecov-action
+        # repo: https://github.com/codecov/codecov-action
+        # releases: https://github.com/codecov/codecov-action/tags
         - name: "Upload coverage to Codecov"
-          uses: codecov/codecov-action@v5
+          uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de  # v5.5.2 released on 09-12-2025
           with:
               fail_ci_if_error: false  # optional (default = false)
               # files: var/coverage/coverage.xml  # optional

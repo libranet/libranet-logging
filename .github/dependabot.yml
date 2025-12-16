@@ -4,8 +4,22 @@
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
+
 updates:
-  - package-ecosystem: "pip" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    schedule:
-      interval: "monthly"
+
+    - package-ecosystem: "uv"
+      directory: "/"
+      open-pull-requests-limit: 9
+      schedule:
+          interval: "monthly"
+      labels:
+          - "python"
+
+    - package-ecosystem: github-actions
+      directory: "/"
+      open-pull-requests-limit: 9
+      schedule:
+          interval: "monthly"
+      labels:
+          - "dependencies"
+          - "github_actions"

@@ -28,6 +28,9 @@
 /lib64
 /pyvenv.cfg
 
+# exclude symlinked claud-files
+.claude
+
 # exclude actual virtual-environment
 /.venv/
 
