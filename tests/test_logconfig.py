@@ -115,8 +115,9 @@ def test_initialize_with_logging_tree(capsys, env, monkeypatch, tests_dir):
     from libranet_logging.logconfig import initialize
 
     monkeypatch.setenv("PYTHON_ENABLE_LOGGING_TREE", "1")
+    monkeypatch.setenv("LOGLEVEL_LIBRANET_LOGGING", "DEBUG")
     logging_yml = tests_dir / "logging_valid.yaml"
-    initialize(logging_yml)
+    initialize(logging_yml, use_print=True)
 
     out, err = capsys.readouterr()
     substrings = [
