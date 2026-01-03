@@ -36,6 +36,7 @@ set shell := ["bash", "-uc"]
 
 import '.just/dir-structure.justfile'
 import '.just/dotenv.justfile'
+import '.just/gh.justfile'
 import '.just/git.justfile'
 import '.just/ipython.justfile'
 import '.just/pre-commit.justfile'
