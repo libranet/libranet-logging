@@ -31,6 +31,10 @@ env:
     # https://github.com/actions/runner/issues/241
     PY_COLORS: 1
 
+    # Pin uv version for reproducible builds
+    # https://github.com/astral-sh/uv/releases
+    UV_VERSION: "0.9.19"  # released on 29-12-2025
+
 on:
     pull_request:
         types: [opened, reopened, synchronize]
@@ -77,11 +81,11 @@ jobs:
         # repo: https://github.com/astral-sh/setup-uv
         # releases: https://github.com/astral-sh/setup-uv/tags
         # docs: https://docs.astral.sh/uv/guides/integration/github
-        - name: Install the latest version of uv
+        - name: Install pinned version of uv
           uses: astral-sh/setup-uv@681c641aba71e4a1c380be3ab5e12ad51f415867  # v7.1.6 released on 13-12-2025
           with:
               python-version: ${{ matrix.python-version }}
-              version: "latest"
+              version: ${{ env.UV_VERSION }}
 
         - name: Set up Python ${{ matrix.python-version }}
           run: uv python install ${{ matrix.python-version }}
