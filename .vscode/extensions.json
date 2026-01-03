@@ -3,6 +3,11 @@
     "recommendations": [
         // sorted alphabetically
 
+        // https://www.aikido.dev/blog/free-ide
+        // https://help.aikido.dev/ide-plugins/supported-ides/vs-code-plugin
+        // marketplace: https://marketplace.visualstudio.com/items?itemName=aikidosecurity.aikido
+        "aikidosecurity.aikido",
+
         "bungcip.better-toml",
 
         // support for the Ruff linter.

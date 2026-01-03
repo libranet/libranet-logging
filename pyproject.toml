@@ -32,12 +32,6 @@ targets = ["docs", "src", "tests"]
 skips = ["*/test_*.py"]
 
 
-[tool.black]
-line-length = 120
-include = '\.py$'          # regex -> single-quotes
-target-version = ["py311"]
-
-
 [tool.coverage.html]
 directory = "var/html/coverage"
 
@@ -60,19 +54,13 @@ branch = true
 data_file = "var/cache/coverage/coverage.db" # defaults to .coverage
 
 
-[tool.flake8]
-max_line_length = 121
-per_file_ignores = [
-    "__init__.py:F401", # F401: imported but unused
-]
 
-
-[tool.isort]
-include_trailing_comma = true # corresponds to -tc flag
-known_third_party = []
-line_length = 120             # corresponds to -w  flag
-multi_line_output = 3         # corresponds to -m  flag
-skip_glob = '^((?!py$).)*$'   # isort all Python files
+# [tool.isort]
+# include_trailing_comma = true # corresponds to -tc flag
+# known_third_party = []
+# line_length = 120             # corresponds to -w  flag
+# multi_line_output = 3         # corresponds to -m  flag
+# skip_glob = '^((?!py$).)*$'   # isort all Python files
 
 
 [tool.mypy]
@@ -88,9 +76,6 @@ show_column_numbers = true
 show_error_codes = true
 show_error_context = true
 
-
-[tool.nox]
-envdir = "var/cache/nox"
 
 [project]
 name = "libranet-logging"
@@ -296,6 +281,5 @@ ignore = [
 
 [tool.uv]
 package = true
-# default-groups = ["all"]
 default-groups = "all"
 required-version = ">=0.6.8"
