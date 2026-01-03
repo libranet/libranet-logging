@@ -94,7 +94,7 @@ jobs:
           run: uv sync --all-groups
 
         - name: Run tests
-          run: uv run pytest tests --color=yes --cov=src --cov-fail-under=50 --cov-report html --cov-report xml --cov-report term -v
+          run: uv run pytest tests --color=yes --cov=src --cov-fail-under=50 --cov-report html:var/coverage/html --cov-report xml:var/coverage/pytest-cobertura.xml --cov-report term-missing -v
 
         # repo: https://github.com/codecov/codecov-action
         # releases: https://github.com/codecov/codecov-action/tags
@@ -102,8 +102,7 @@ jobs:
           uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de  # v5.5.2 released on 09-12-2025
           with:
               fail_ci_if_error: true  # false is default
-              # files: var/coverage/coverage.xml  # optional
-              directory: var/coverage
+              files: var/coverage/pytest-cobertura.xml
               flags: unittests # optional
               token: ${{ secrets.CODECOV_TOKEN }}  # not required for public repos
               verbose: true  # false is default
