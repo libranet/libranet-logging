@@ -1,5 +1,4 @@
-# see https://github.com/ahmadnassri/action-dependabot-auto-merge
-#
+
 # Security references:
 #  - https://securitylab.github.com/resources/github-actions-preventing-pwn-requests
 #  - https://securitylab.github.com/resources/github-actions-untrusted-input
