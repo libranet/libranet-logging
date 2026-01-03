@@ -1,71 +1,122 @@
-# See ../justfile
+# uv
 
 
-# create the virtualenv
+# use existing env-variable 'UV_PYTHON_INSTALL_DIR' or default to '/opt/python'
+export UV_PYTHON_INSTALL_DIR := env('UV_PYTHON_INSTALL_DIR', '/opt/python')
+
+# install uv/uvx directly in /opt/bin
+export UV_INSTALL_DIR := env('UV_INSTALL_DIR', '/usr/local/bin')
+export TMPDIR := env('TMPDIR', '/tmp')
+
+
+# install uv + uvx
 [group: 'uv']
-uv-create-venv:
-	uv venv --seed
+uv-install:
+    @ echo "Using temp-folder {{TMPDIR}}"
+    mkdir -p {{TMPDIR}}
+    curl --create-dirs --fail --location --no-progress-bar --silent --show-error --proto '=https' --tlsv1.2 https://astral.sh/uv/install.sh | env INSTALLER_NO_MODIFY_PATH=1 bash -s -- --verbose
+
+alias install-uv := uv-install
 
 
-# run uv install to create the virtualenv
+# upgrade uv itself
 [group: 'uv']
-uv-pip-install:
-	uv pip install --editable .
+uv-upgrade target_version="":
+    uv self update {{target_version}}
+
+alias upgrade-uv := uv-upgrade
 
 
-# run uv install without dev-dependencies
+# show location of uv
 [group: 'uv']
-uv-pip-install-no-dev:
-	uv pip install --no-dev
+uv-which:
+    @ which uv
+
+alias which-uv := uv-which
 
 
-# run uv sync
+# display uv version
 [group: 'uv']
-uv-sync:
-	uv sync
+uv-version:
+    uv --version
+
+alias version-uv := uv-version
 
 
-# run uv lock
+# clear the cache used by uv
 [group: 'uv']
-uv-lock:
-	uv lock
+uv-cache-clean:
+    uv cache clean
 
 
-# run uv lock --upgrade
+# display cache-dir used by uv
 [group: 'uv']
-uv-lock-upgrade:
-	uv lock --upgrade
+uv-cache-dir:
+    uv cache dir
 
 
-# run uv build to create the python-package
+# install the project and all dependencies from only the default groups
 [group: 'uv']
-uv-build:
-	uv build --out-dir var/dist
+uv-sync args="":
+    uv sync {{args}}
+
+# alias uv-install := uv-sync
+alias create-venv := uv-sync
 
 
-# publish the package to pypi
+# install the project including all dependencies from all groups
 [group: 'uv']
-uv-publish:
-	uv publish var/dist/*
+uv-sync-all-groups args="":
+    uv sync --all-groups {{args}}
+
+alias uv-sync-all := uv-sync-all-groups
 
 
-# generate a requirements.txt-file
+# update all dependencies from all groups
+[group: 'uv']
+uv-sync-upgrade-all-groups args="":
+    uv sync --upgrade --all-groups {{args}}
+
+
+# update uv.lock
+[group: 'uv']
+uv-lock args="":
+    uv lock {{args}}
+
+
+# check uv.lock is up-to-date
+[group: 'uv']
+uv-lock-check args="":
+    uv lock --check {{args}}
+
+
+# build the python-package
+[group: 'uv']
+uv-build args="":
+    uv build {{args}}
+
+
+# publish the python-package
+[group: 'uv']
+uv-publish path="dist/" args="":
+    uv publish {{path}} --verbose {{args}}
+
+
+# export uv-defined requirements to a pip-installable requirements-file
 [group: 'uv']
 uv-export-requirements:
-	uv export --format requirements-txt --output-file requirements.txt
+    uv export --format requirements-txt --no-hashes --output-file etc/requirements.txt
+    @ echo -e "Updated etc/requirements.txt"
+
+alias uv-export := uv-export-requirements
 
 
-# generate a requirements.txt-file for readthedocs
+# set python-version in .python-version file
 [group: 'uv']
-uv-export-requirements-docs:
-	uv export --format requirements-txt --only-group docs --no-hashes --output-file docs/requirements.txt
+[unix]
+uv-set-python-version version="3.10":
+    mv .python-version .python-version.backup
+    @ echo "{{version}}" > .python-version
+    @ echo -e "Set python version to {{version}}"
 
 
-[group: 'uv']
-uv-tree args="":
-    uv tree {{args}}
-
-
-[group: 'uv']
-uv-package-deps name="":
-    uv tree --invert --package {{name}}
