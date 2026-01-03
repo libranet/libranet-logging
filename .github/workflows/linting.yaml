@@ -27,7 +27,7 @@ concurrency:
 env:
     # Pin uv version for reproducible builds
     # https://github.com/astral-sh/uv/releases
-    UV_VERSION: "0.9.19"  # released on 29-12-2025
+    UV_VERSION: "0.9.21"  # released on 30-12-2025
 
 on:
     pull_request:
