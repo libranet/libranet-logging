@@ -78,6 +78,8 @@ jobs:
               python-version: ${{ matrix.python-version }}
               version: ${{ env.UV_VERSION }}
               enable-cache: true
+              cache-dependency-glob: "uv.lock"
+              prune-cache: true
 
         - name: Set up Python ${{ matrix.python-version }}
           run: uv python install ${{ matrix.python-version }}
