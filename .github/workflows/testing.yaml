@@ -56,13 +56,13 @@ jobs:
             fail-fast: false
             matrix:
                 python-version:
-                - "3.8"
-                - "3.9"
-                - "3.10"
-                - "3.11"
-                - "3.12"
-                - "3.13"
-                - "3.14"
+                    - "3.14"
+                    - "3.13"
+                    - "3.12"
+                    - "3.11"
+                    - "3.10"
+                    - "3.9"
+                    - "3.8"
 
         steps:
 
@@ -75,8 +75,8 @@ jobs:
 
         - name: Remove sitecustomize.py
           run: |
-            sudo rm -f /usr/lib/python3.*/sitecustomize.py
-            sudo rm -f /etc/python3.*/sitecustomize.py
+              sudo rm -f /usr/lib/python3.*/sitecustomize.py
+              sudo rm -f /etc/python3.*/sitecustomize.py
 
         # repo: https://github.com/astral-sh/setup-uv
         # releases: https://github.com/astral-sh/setup-uv/tags
