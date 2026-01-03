@@ -7,19 +7,26 @@ version: 2
 
 updates:
 
-    - package-ecosystem: "uv"
-      directory: "/"
-      open-pull-requests-limit: 9
-      schedule:
-          interval: "monthly"
-      labels:
-          - "python"
+    # supported ecosystems:
+    # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference#package-ecosystem-
 
+    # update for GitHub Actions
     - package-ecosystem: github-actions
-      directory: "/"
-      open-pull-requests-limit: 9
-      schedule:
-          interval: "monthly"
+      directory: "/"  # will search .github/workflows
       labels:
           - "dependencies"
           - "github_actions"
+      open-pull-requests-limit: 9
+      schedule:
+          interval: "weekly"
+
+    # update uv.lock file
+    - package-ecosystem: "uv"
+      directory: "/"
+      labels:
+          - "dependencies"
+          - "python"
+          - "uv"
+      open-pull-requests-limit: 9
+      schedule:
+          interval: "monthly"
