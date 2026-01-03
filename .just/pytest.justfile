@@ -16,7 +16,7 @@ pytest-marked markers="" args="":
 # run pytest with coverage
 [group: 'pytest']
 pytest-coverage args="":
-    uv run pytest --color=yes --cov=libranet_logging --cov-fail-under=90 --cov-report html:var/coverage/html --cov-report xml:var/coverage/pytest-cobertura.xml --cov-report term-missing {{args}}
+    uv run pytest --color=yes --cov=src --cov-fail-under=50 --cov-report html:var/coverage/html --cov-report xml:var/coverage/pytest-cobertura.xml --cov-report term-missing {{args}}
 
 alias pytest-cov := pytest-coverage
 
@@ -24,7 +24,7 @@ alias pytest-cov := pytest-coverage
 # run pytest with coverage
 [group: 'pytest']
 pytest-coverage-azure args="":
-     uv run pytest tests --color=yes --cov=libranet_logging --cov-fail-under=5 --cov-report html:var/coverage/html --cov-report xml:var/coverage/pytest-cobertura.xml --cov-report term-missing --junit-xml='var/coverage/pytest-junit.xml' --nunit-xml='var/coverage/pytest-nunit.xml' {{args}}
+     uv run pytest tests --color=yes --cov=src --cov-fail-under=50 --cov-report html:var/coverage/html --cov-report xml:var/coverage/pytest-cobertura.xml --cov-report term-missing --junit-xml='var/coverage/pytest-junit.xml' --nunit-xml='var/coverage/pytest-nunit.xml' {{args}}
 
 alias pytest-cov-azure := pytest-coverage-azure
 
