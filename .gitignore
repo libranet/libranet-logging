@@ -19,27 +19,27 @@
 #
 #   - Symlinks are always files, even if they point to a dir. So never put a / at the end.
 
+# exclude claude for now
+.claude
+
 # dev-symlinks to .venv to make bin/python work
 /bin
 /lib
 /lib64
 /pyvenv.cfg
 
-# exclude symlinked claud-files
-/.claude
-
-# exclude virtual-environments
+# exclude actual virtual-environment
 /.venv*
 
-# distribution / packaging
+# default build directory
 /dist/
 
 # .env can contain secrets
 .env*
-# but include template
+# but include .env.template
 !.env.template
 
-# exclude python cache-files
+# excluded generated python-files Byte-compiled / optimized / DLL files
 __pycache__/
 
 # exclude toplevel var-dir
