@@ -33,7 +33,11 @@ env:
 
     # Pin uv version for reproducible builds
     # https://github.com/astral-sh/uv/releases
-    UV_VERSION: "0.9.21"  # released on 30-12-2025
+    UV_VERSION: "0.9.21"  # released on 2025-12-30
+
+    # Pin just version for reproducible builds
+    # https://github.com/casey/just/releases
+    JUST_VERSION: "1.46.0"  # released on 2026-01-02
 
 on:
     pull_request:
@@ -104,7 +108,9 @@ jobs:
         - name: "Upload coverage to Codecov"
           uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de  # v5.5.2 released on 09-12-2025
           with:
-              fail_ci_if_error: true  # false is default
+              # Dependabot PRs cannot access CODECOV_TOKEN, so the upload fails even when tests pass.
+              # Coverage is uploaded correctly after merge to main where the token is available.
+              fail_ci_if_error: false  # false is default
               files: var/coverage/pytest-cobertura.xml
               flags: unittests # optional
               token: ${{ secrets.CODECOV_TOKEN }}  # not required for public repos
