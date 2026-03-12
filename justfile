@@ -54,7 +54,7 @@ import '.just/ty.justfile'
 import '.just/uv.justfile'
 
 
-# Help target
-[group: 'just']
+# List available commands
+[group: 'default']
 help:
     @ just --list --unsorted
