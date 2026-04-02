@@ -11,10 +11,7 @@ name: Auto Merge Dependabot
 on:
   pull_request_target:
 
-permissions:
-  contents: write
-  pull-requests: write
-  workflows: write
+permissions: {}
 
 jobs:
   auto-merge:
@@ -23,8 +20,12 @@ jobs:
 
     timeout-minutes: 5
 
+    permissions:
+      contents: write
+      pull-requests: write
+
     # Only run for Dependabot PRs - security: prevent running on PRs from forks or other actors
-    if: github.actor == 'dependabot[bot]'
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
 
     steps:
 
