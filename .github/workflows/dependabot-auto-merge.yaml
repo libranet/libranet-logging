@@ -31,12 +31,22 @@ jobs:
 
       # repo: https://github.com/actions/checkout
       # releases: https://github.com/actions/checkout/tags
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.1 released on 02-12-2025
+      # - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.1 released on 02-12-2025
+
+      # repo: https://github.com/dependabot/fetch-metadata
+      # releases: https://github.com/dependabot/fetch-metadata/tags
+      - name: Dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@ffa630c65fa7e0ecfa0625b5ceda64399aea1b36  # v3.0.0
 
       # repo: https://github.com/fastify/github-action-merge-dependabot
       # releases: https://github.com/fastify/github-action-merge-dependabot/tags
       # The action waits for required status checks by default
       - uses: fastify/github-action-merge-dependabot@1b2ed42db8f9d81a46bac83adedfc03eb5149dff  # v3.11.2 released on 03-10-2025
+        env:
+            UPDATE_TYPE: ${{ steps.dependabot-metadata.outputs.update-type }}
+            DEPENDENCY_TYPE: ${{ steps.dependabot-metadata.outputs.dependency-type }}
+            DEPENDENCY_NAMES: ${{ steps.dependabot-metadata.outputs.dependency-names }}
         with:
             # github-token: ${{ secrets.TOKEN_AUTOMERGE }}
             # Using built-in GITHUB_TOKEN for better security (auto-scoped, auto-expires)
