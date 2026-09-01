@@ -106,7 +106,7 @@ jobs:
         # repo: https://github.com/codecov/codecov-action
         # releases: https://github.com/codecov/codecov-action/tags
         - name: "Upload coverage to Codecov"
-          uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de  # v5.5.2 released on 09-12-2025
+          uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f  # v7.0.0 released on 09-12-2025
           with:
               # Dependabot PRs cannot access CODECOV_TOKEN, so the upload fails even when tests pass.
               # Coverage is uploaded correctly after merge to main where the token is available.
