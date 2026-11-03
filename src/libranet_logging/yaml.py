@@ -10,7 +10,7 @@ please see:
 
 """
 
-from __future__ import annotations  # make | in typing work in Python 3.8
+from __future__ import annotations
 
 import json
 import os
@@ -19,7 +19,7 @@ import typing as tp
 import yaml
 
 
-def constructor_env(loader: tp.Any, node: tp.Any) -> tp.Union[str, tp.List[str]]:
+def constructor_env(loader: tp.Any, node: tp.Any) -> str | list[str]:
     """YAML-Constructor to load a value from a env-variable.
 
     Usage in yml:
@@ -70,7 +70,7 @@ def add_constructor() -> None:
     #    print(exc)
 
 
-def read_yaml(yaml_path: str, variables: tp.Dict[str, str] | None = None) -> tp.Dict:
+def read_yaml(yaml_path: str, variables: dict[str, str] | None = None) -> dict:
     """Read the yaml-file.
 
     Returns: dict

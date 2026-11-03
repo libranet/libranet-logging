@@ -1,26 +1,18 @@
 """libranet_logging.logconfig."""
 
-from __future__ import annotations  # make | in typing work in Python 3.8
+from __future__ import annotations
 
+import importlib.resources
 import logging
 import logging.config
 import operator
 import os
-import sys
 
 import logging_tree
 
 from libranet_logging.utils import ensure_dir, is_interactive_shell, strtobool
 from libranet_logging.validate import validate_logging
 from libranet_logging.yaml import read_yaml
-
-if sys.version_info < (3, 11):
-    # For Python 3.10 and earlier, use the backport
-    import importlib_resources
-else:
-    # For Python 3.11 and later, use the standard library
-    import importlib.resources as importlib_resources
-
 
 log = logging.getLogger(__name__)
 
@@ -115,25 +107,14 @@ def output_logging_tree(use_print=False):
         log.debug(configured_log_description)
 
 
-def get_default_logging_yaml() -> importlib_resources.abc.Traversable:
+def get_default_logging_yaml() -> importlib.resources.abc.Traversable:
     """Returns the path to the default logging configuration file.
 
     Returns:
         A Traversable `Path` object representing the path to the default logging configuration file.
 
     """
-    package_root = importlib_resources.files("libranet_logging")
-    return package_root / "etc" / "logging.yaml"
-
-
-def get_default_logging_yaml() -> importlib_resources.abc.Traversable:
-    """Returns the path to the default logging configuration file.
-
-    Returns:
-        A Traversable `Path` object representing the path to the default logging configuration file.
-
-    """
-    package_root = importlib_resources.files("libranet_logging")
+    package_root = importlib.resources.files("libranet_logging")
     return package_root / "etc" / "logging.yaml"
 
 

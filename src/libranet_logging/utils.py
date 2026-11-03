@@ -3,7 +3,6 @@
 import logging
 import os
 import pathlib as pl
-import typing as tp
 
 import logging_tree
 
@@ -75,7 +74,7 @@ def is_interactive_shell():
     return False
 
 
-def ensure_dir(required_dir: tp.Union[pl.Path, str]) -> None:
+def ensure_dir(required_dir: pl.Path | str) -> None:
     """Ensure the required directory exists."""
     # convert to Path
     if isinstance(required_dir, str):
