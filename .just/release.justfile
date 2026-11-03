@@ -1,7 +1,34 @@
 # release
 
 
-# check if the new docker-version specified in docker/.gitlab-ci.yml is ok to release
+# strip a dev-marker before releasing (e.g. 1.0.6.dev1 -> 1.0.6). `check-package-version`'s
+# x.y(.z) regex rejects `.devN` versions, so run this (or `uv version <x.y.z>` for a specific
+# target, e.g. a minor/major bump) before `just release` if pyproject.toml still carries one.
+[group: 'release']
+[unix]
+bump-stable-version:
+    uv version --bump stable
+
+
+# bump pyproject.toml + uv.lock to the next dev-version after a release (e.g. 1.0.5 -> 1.0.6.dev1),
+# and push that as its own commit. Without this, main keeps reporting the just-released version
+# after the tag - indistinguishable from the actual release commit - until someone remembers to
+# bump it by hand. Called automatically at the end of `release`; safe to re-run manually.
+[group: 'release']
+[unix]
+bump-dev-version:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    uv version --bump patch --bump dev
+    new_version=$(uv version --short)
+
+    git add pyproject.toml uv.lock
+    git commit -m "chore: bump version to ${new_version}"
+    git push
+
+
+# check that the version in pyproject.toml is a valid x.y(.z) release-version that is not tagged yet
 [group: 'release']
 [unix]
 check-package-version: git-tag-list-versions
@@ -9,7 +36,7 @@ check-package-version: git-tag-list-versions
     # set -euxo pipefail
     set -euo pipefail
 
-    new_version=$(bin/toml get --toml-path pyproject.toml tool.poetry.version)
+    new_version=$(uv version --short)
     echo -e "\nNew release-version specified in pyproject.toml: $new_version"
 
     # Validate version-syntax
@@ -27,7 +54,9 @@ check-package-version: git-tag-list-versions
     # echo "new version would be: ${new_version}"
 
 
-# release a new package as git-tag with version specified in pyproject.toml
+# release a new package: tag with the version in pyproject.toml + create a GitHub Release.
+# Publishing to PyPI happens in .github/workflows/releasing.yaml, triggered by the GitHub Release
+# (event `release: published`) that `gh release create` fires below.
 [group: 'release']
 [unix]
 release: git-check-uncommitted-changes check-package-version
@@ -42,7 +71,7 @@ release: git-check-uncommitted-changes check-package-version
         exit 1
     fi
 
-    new_version=$(bin/toml get --toml-path pyproject.toml tool.poetry.version)
+    new_version=$(uv version --short)
     printf "\nOK to release ${new_version}? (y/n)\n"
     read answer
 
@@ -51,6 +80,12 @@ release: git-check-uncommitted-changes check-package-version
         git push
         git tag ${new_version}
         git push --tags
+
+        echo "Creating GitHub Release ${new_version}"
+        gh release create "${new_version}" --title "${new_version}" --generate-notes
+
+        echo "Bumping main to the next dev-version"
+        just bump-dev-version
     else
         exit 0
     fi
