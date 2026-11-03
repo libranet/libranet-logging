@@ -20,6 +20,13 @@ Changelog
 
 - Add Renovate alongside Dependabot for automated dependency updates.
 
+- Publish to PyPI from GitHub Actions with OIDC Trusted Publishing (no stored API token)
+  and signed build provenance. Every push to ``main`` publishes to TestPyPI.
+  ``just release`` now creates a GitHub Release, which triggers the PyPI publish.
+
+- Upgrade all locked dependencies, fixing known vulnerabilities in the dev and docs tooling,
+  and run ``uv audit`` as a pre-commit hook.
+
 - Replace dependabot-auto-merge action with
   `fastify/github-action-merge-dependabot` action.
 
