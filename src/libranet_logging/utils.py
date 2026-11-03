@@ -36,8 +36,10 @@ def print_tree() -> None:
 def print_loggers() -> None:
     """Returns:"""
     _, _, children = logging_tree.nodes.tree()
-    for node in children:
-        name, logger, _ = node
+    for name, logger, _ in children:
+        if isinstance(logger, logging.PlaceHolder):
+            # intermediate node of a dotted logger-name that was never created itself
+            continue
         loglevelname = logging._levelToName[logger.level].upper()  # pylint: disable=protected-access
         print(f"{name} - disabled: {logger.disabled} - level: {loglevelname}")
 

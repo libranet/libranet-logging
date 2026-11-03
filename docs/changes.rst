@@ -12,6 +12,10 @@ Changelog
 
 - Remove a duplicate definition of ``libranet_logging.logconfig.get_default_logging_yaml``.
 
+- Fix ``AttributeError`` in ``libranet_logging.utils.print_loggers`` when a top-level logger only exists
+  as a ``PlaceHolder``, e.g. after ``logging.getLogger("foo.bar")`` without a logger ``foo``.
+  Add unittests for ``libranet_logging.utils``.
+
 - Replace Makefiles with justfiles and use ``uv`` for development, CI and Read the Docs.
 
 - Add Renovate alongside Dependabot for automated dependency updates.
