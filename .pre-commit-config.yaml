@@ -98,3 +98,10 @@ repos:
         entry: uv lock --check
         language: system
         pass_filenames: false
+
+      - id: uv-audit
+        name: uv audit
+        description: check uv.lock for vulnerabilities
+        entry: uv audit
+        language: system
+        pass_filenames: false
