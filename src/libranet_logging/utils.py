@@ -3,7 +3,6 @@
 import logging
 import os
 import pathlib as pl
-import typing as tp
 
 import logging_tree
 
@@ -37,8 +36,10 @@ def print_tree() -> None:
 def print_loggers() -> None:
     """Returns:"""
     _, _, children = logging_tree.nodes.tree()
-    for node in children:
-        name, logger, _ = node
+    for name, logger, _ in children:
+        if isinstance(logger, logging.PlaceHolder):
+            # intermediate node of a dotted logger-name that was never created itself
+            continue
         loglevelname = logging._levelToName[logger.level].upper()  # pylint: disable=protected-access
         print(f"{name} - disabled: {logger.disabled} - level: {loglevelname}")
 
@@ -75,7 +76,7 @@ def is_interactive_shell():
     return False
 
 
-def ensure_dir(required_dir: tp.Union[pl.Path, str]) -> None:
+def ensure_dir(required_dir: pl.Path | str) -> None:
     """Ensure the required directory exists."""
     # convert to Path
     if isinstance(required_dir, str):

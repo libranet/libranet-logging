@@ -2,8 +2,23 @@ Changelog
 =========
 
 
-1.5.3 (YYYY-MM-DD)
-------------------
+1.6 (2026-11-03)
+----------------
+
+- Drop support for Python 3.8, 3.9 and 3.10. Python 3.11 or later is now required.
+  Remove the ``importlib-metadata`` and ``importlib-resources`` backport dependencies.
+
+- Add support for Python 3.14.
+
+- Remove a duplicate definition of ``libranet_logging.logconfig.get_default_logging_yaml``.
+
+- Fix ``AttributeError`` in ``libranet_logging.utils.print_loggers`` when a top-level logger only exists
+  as a ``PlaceHolder``, e.g. after ``logging.getLogger("foo.bar")`` without a logger ``foo``.
+  Add unittests for ``libranet_logging.utils``.
+
+- Replace Makefiles with justfiles and use ``uv`` for development, CI and Read the Docs.
+
+- Add Renovate alongside Dependabot for automated dependency updates.
 
 - Replace dependabot-auto-merge action with
   `fastify/github-action-merge-dependabot` action.

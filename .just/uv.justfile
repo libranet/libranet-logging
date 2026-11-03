@@ -114,7 +114,7 @@ alias uv-export := uv-export-requirements
 # set python-version in .python-version file
 [group: 'uv']
 [unix]
-uv-set-python-version version="3.10":
+uv-set-python-version version="3.11":
     mv .python-version .python-version.backup
     @ echo "{{version}}" > .python-version
     @ echo -e "Set python version to {{version}}"
