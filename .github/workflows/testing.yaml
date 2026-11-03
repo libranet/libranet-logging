@@ -33,7 +33,7 @@ env:
 
     # Pin uv version for reproducible builds
     # https://github.com/astral-sh/uv/releases
-    UV_VERSION: "0.9.21"  # released on 2025-12-30
+    UV_VERSION: "0.13.7"
 
     # Pin just version for reproducible builds
     # https://github.com/casey/just/releases
