@@ -2,11 +2,19 @@ Changelog
 =========
 
 
-1.5.3 (YYYY-MM-DD)
-------------------
+1.6 (2026-11-03)
+----------------
 
 - Drop support for Python 3.8, 3.9 and 3.10. Python 3.11 or later is now required.
   Remove the ``importlib-metadata`` and ``importlib-resources`` backport dependencies.
+
+- Add support for Python 3.14.
+
+- Remove a duplicate definition of ``libranet_logging.logconfig.get_default_logging_yaml``.
+
+- Replace Makefiles with justfiles and use ``uv`` for development, CI and Read the Docs.
+
+- Add Renovate alongside Dependabot for automated dependency updates.
 
 - Replace dependabot-auto-merge action with
   `fastify/github-action-merge-dependabot` action.
