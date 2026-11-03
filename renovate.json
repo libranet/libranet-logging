@@ -2,5 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "description": "Never bump .python-version: it is pinned manually (pyenv manager reads .python-version)",
+      "matchManagers": [
+        "pyenv"
+      ],
+      "enabled": false
+    }
   ]
 }
